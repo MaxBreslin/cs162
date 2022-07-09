@@ -79,7 +79,7 @@ char menu() {
 
     cout << left << "Please enter one of the following options:" << endl;
     cout.width(14);
-    cout << "\tLOAD" << "- Load roster data from an input file" << endl;
+    cout << "\tLOAD" << "- Load roster and assignment data" << endl;
     cout.width(14);
     cout << "\tDISPLAY" << "- Display the current roster data" << endl;
     cout.width(14);

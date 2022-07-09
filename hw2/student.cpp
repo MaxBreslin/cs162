@@ -18,6 +18,9 @@ Student::Student() {
 }
 
 Student::Student(const Student &obj) {
+    m_size = 0;
+    m_capacity = MAX_SUBMISSIONS;
+    m_grade = '\0';
     // Without memset first, strange values will fill the remaining space in the array.
     memset(m_name, 0, MAX_CHARS + 1);
     memset(m_gnum, 0, MAX_CHARS + 1);
@@ -76,6 +79,9 @@ Student::~Student() {
 }
 
 Student Student::operator=(const Student &obj) {
+    m_size = 0;
+    m_capacity = MAX_SUBMISSIONS;
+    m_grade = '\0';
     memset(m_name, 0, MAX_CHARS + 1);
     memset(m_gnum, 0, MAX_CHARS + 1);
     strcpy(m_name, obj.m_name);

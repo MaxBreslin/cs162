@@ -1,0 +1,18 @@
+G00000026,Structs,4,0.10
+G00000023,Structs,4,0.10
+G00000026,Classes,4,0.10
+G00000023,Classes,4,0.10
+G00000026,Dynamic Memory,4,0.10
+G00000023,Dynamic Memory,4,0.10
+G00000026,Linked Lists 1,4,0.10
+G00000023,Linked Lists 1,4,0.10
+G00000026,Linked Lists 2,4,0.10
+G00000023,Linked Lists 2,4,0.10
+G00000026,Assessment 1,4,0.125
+G00000023,Assessment 1,4,0.125
+G00000026,Assessment 2,4,0.125
+G00000023,Assessment 2,4,0.125
+G00000026,Assessment 3,4,0.125
+G00000023,Assessment 3,4,0.125
+G00000026,Assessment 4,4,0.125
+G00000023,Assessment 4,4,0.125
