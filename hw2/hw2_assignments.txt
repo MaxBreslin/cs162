@@ -1,0 +1,227 @@
+G00000026,Structs,4,0.10
+G00000023,Structs,4,0.10
+G00000001,Structs,4,0.10
+G00000011,Structs,4,0.10
+G00000021,Structs,4,0.10
+G00000025,Structs,4,0.10
+G00000022,Structs,4,0.10
+G00000024,Structs,4,0.10
+G00000007,Structs,4,0.10
+G00000017,Structs,4,0.10
+G00000002,Structs,4,0.10
+G00000012,Structs,4,0.10
+G00000003,Structs,4,0.10
+G00000013,Structs,4,0.10
+G00000004,Structs,4,0.10
+G00000014,Structs,4,0.10
+G00000005,Structs,4,0.10
+G00000015,Structs,4,0.10
+G00000006,Structs,4,0.10
+G00000016,Structs,4,0.10
+G00000010,Structs,4,0.10
+G00000020,Structs,4,0.10
+G00000009,Structs,4,0.10
+G00000019,Structs,4,0.10
+G00000008,Structs,4,0.10
+G00000026,Classes,4,0.10
+G00000023,Classes,4,0.10
+G00000001,Classes,4,0.10
+G00000011,Classes,4,0.10
+G00000021,Classes,4,0.10
+G00000025,Classes,4,0.10
+G00000022,Classes,4,0.10
+G00000024,Classes,4,0.10
+G00000007,Classes,4,0.10
+G00000017,Classes,4,0.10
+G00000002,Classes,4,0.10
+G00000012,Classes,4,0.10
+G00000003,Classes,4,0.10
+G00000013,Classes,4,0.10
+G00000004,Classes,4,0.10
+G00000014,Classes,4,0.10
+G00000005,Classes,4,0.10
+G00000015,Classes,4,0.10
+G00000006,Classes,4,0.10
+G00000016,Classes,4,0.10
+G00000010,Classes,4,0.10
+G00000020,Classes,4,0.10
+G00000009,Classes,4,0.10
+G00000019,Classes,4,0.10
+G00000008,Classes,4,0.10
+G00000018,Classes,4,0.10
+G00000026,Dynamic Memory,4,0.10
+G00000023,Dynamic Memory,4,0.10
+G00000001,Dynamic Memory,4,0.10
+G00000011,Dynamic Memory,4,0.10
+G00000021,Dynamic Memory,4,0.10
+G00000025,Dynamic Memory,4,0.10
+G00000022,Dynamic Memory,4,0.10
+G00000024,Dynamic Memory,4,0.10
+G00000007,Dynamic Memory,4,0.10
+G00000017,Dynamic Memory,4,0.10
+G00000002,Dynamic Memory,4,0.10
+G00000012,Dynamic Memory,4,0.10
+G00000003,Dynamic Memory,4,0.10
+G00000013,Dynamic Memory,4,0.10
+G00000004,Dynamic Memory,4,0.10
+G00000014,Dynamic Memory,4,0.10
+G00000005,Dynamic Memory,4,0.10
+G00000015,Dynamic Memory,4,0.10
+G00000006,Dynamic Memory,4,0.10
+G00000016,Dynamic Memory,4,0.10
+G00000010,Dynamic Memory,4,0.10
+G00000020,Dynamic Memory,4,0.10
+G00000009,Dynamic Memory,4,0.10
+G00000019,Dynamic Memory,4,0.10
+G00000008,Dynamic Memory,4,0.10
+G00000026,Linked Lists 1,4,0.10
+G00000023,Linked Lists 1,4,0.10
+G00000001,Linked Lists 1,4,0.10
+G00000011,Linked Lists 1,4,0.10
+G00000021,Linked Lists 1,4,0.10
+G00000025,Linked Lists 1,4,0.10
+G00000022,Linked Lists 1,4,0.10
+G00000024,Linked Lists 1,4,0.10
+G00000007,Linked Lists 1,4,0.10
+G00000017,Linked Lists 1,4,0.10
+G00000002,Linked Lists 1,4,0.10
+G00000012,Linked Lists 1,4,0.10
+G00000003,Linked Lists 1,4,0.10
+G00000013,Linked Lists 1,4,0.10
+G00000004,Linked Lists 1,4,0.10
+G00000014,Linked Lists 1,4,0.10
+G00000005,Linked Lists 1,4,0.10
+G00000015,Linked Lists 1,4,0.10
+G00000006,Linked Lists 1,4,0.10
+G00000016,Linked Lists 1,4,0.10
+G00000010,Linked Lists 1,4,0.10
+G00000020,Linked Lists 1,4,0.10
+G00000009,Linked Lists 1,4,0.10
+G00000019,Linked Lists 1,4,0.10
+G00000008,Linked Lists 1,4,0.10
+G00000026,Linked Lists 2,4,0.10
+G00000023,Linked Lists 2,4,0.10
+G00000001,Linked Lists 2,4,0.10
+G00000011,Linked Lists 2,4,0.10
+G00000021,Linked Lists 2,4,0.10
+G00000025,Linked Lists 2,4,0.10
+G00000022,Linked Lists 2,4,0.10
+G00000024,Linked Lists 2,4,0.10
+G00000007,Linked Lists 2,4,0.10
+G00000017,Linked Lists 2,4,0.10
+G00000002,Linked Lists 2,4,0.10
+G00000012,Linked Lists 2,4,0.10
+G00000003,Linked Lists 2,4,0.10
+G00000013,Linked Lists 2,4,0.10
+G00000004,Linked Lists 2,4,0.10
+G00000014,Linked Lists 2,4,0.10
+G00000005,Linked Lists 2,4,0.10
+G00000015,Linked Lists 2,4,0.10
+G00000006,Linked Lists 2,4,0.10
+G00000016,Linked Lists 2,4,0.10
+G00000010,Linked Lists 2,4,0.10
+G00000020,Linked Lists 2,4,0.10
+G00000009,Linked Lists 2,4,0.10
+G00000019,Linked Lists 2,4,0.10
+G00000008,Linked Lists 2,4,0.10
+G00000026,Assessment 1,4,0.125
+G00000023,Assessment 1,4,0.125
+G00000001,Assessment 1,4,0.125
+G00000011,Assessment 1,4,0.125
+G00000021,Assessment 1,4,0.125
+G00000025,Assessment 1,4,0.125
+G00000022,Assessment 1,4,0.125
+G00000024,Assessment 1,4,0.125
+G00000007,Assessment 1,4,0.125
+G00000017,Assessment 1,4,0.125
+G00000002,Assessment 1,4,0.125
+G00000012,Assessment 1,4,0.125
+G00000003,Assessment 1,4,0.125
+G00000013,Assessment 1,4,0.125
+G00000004,Assessment 1,4,0.125
+G00000014,Assessment 1,4,0.125
+G00000005,Assessment 1,4,0.125
+G00000015,Assessment 1,4,0.125
+G00000006,Assessment 1,4,0.125
+G00000016,Assessment 1,4,0.125
+G00000010,Assessment 1,4,0.125
+G00000020,Assessment 1,4,0.125
+G00000009,Assessment 1,4,0.125
+G00000019,Assessment 1,4,0.125
+G00000008,Assessment 1,4,0.125
+G00000026,Assessment 2,4,0.125
+G00000023,Assessment 2,4,0.125
+G00000001,Assessment 2,4,0.125
+G00000011,Assessment 2,4,0.125
+G00000021,Assessment 2,4,0.125
+G00000025,Assessment 2,4,0.125
+G00000022,Assessment 2,4,0.125
+G00000024,Assessment 2,4,0.125
+G00000007,Assessment 2,4,0.125
+G00000017,Assessment 2,4,0.125
+G00000002,Assessment 2,4,0.125
+G00000012,Assessment 2,4,0.125
+G00000003,Assessment 2,4,0.125
+G00000013,Assessment 2,4,0.125
+G00000004,Assessment 2,4,0.125
+G00000014,Assessment 2,4,0.125
+G00000005,Assessment 2,4,0.125
+G00000015,Assessment 2,4,0.125
+G00000006,Assessment 2,4,0.125
+G00000016,Assessment 2,4,0.125
+G00000010,Assessment 2,4,0.125
+G00000020,Assessment 2,4,0.125
+G00000009,Assessment 2,4,0.125
+G00000019,Assessment 2,4,0.125
+G00000008,Assessment 2,4,0.125
+G00000026,Assessment 3,4,0.125
+G00000023,Assessment 3,4,0.125
+G00000001,Assessment 3,4,0.125
+G00000011,Assessment 3,4,0.125
+G00000021,Assessment 3,4,0.125
+G00000025,Assessment 3,4,0.125
+G00000022,Assessment 3,4,0.125
+G00000024,Assessment 3,4,0.125
+G00000007,Assessment 3,4,0.125
+G00000017,Assessment 3,4,0.125
+G00000002,Assessment 3,4,0.125
+G00000012,Assessment 3,4,0.125
+G00000003,Assessment 3,4,0.125
+G00000013,Assessment 3,4,0.125
+G00000004,Assessment 3,4,0.125
+G00000014,Assessment 3,4,0.125
+G00000005,Assessment 3,4,0.125
+G00000015,Assessment 3,4,0.125
+G00000006,Assessment 3,4,0.125
+G00000016,Assessment 3,4,0.125
+G00000010,Assessment 3,4,0.125
+G00000020,Assessment 3,4,0.125
+G00000009,Assessment 3,4,0.125
+G00000019,Assessment 3,4,0.125
+G00000008,Assessment 3,4,0.125
+G00000026,Assessment 4,4,0.125
+G00000023,Assessment 4,4,0.125
+G00000001,Assessment 4,4,0.125
+G00000011,Assessment 4,4,0.125
+G00000021,Assessment 4,4,0.125
+G00000025,Assessment 4,4,0.125
+G00000022,Assessment 4,4,0.125
+G00000024,Assessment 4,4,0.125
+G00000007,Assessment 4,4,0.125
+G00000017,Assessment 4,4,0.125
+G00000002,Assessment 4,4,0.125
+G00000012,Assessment 4,4,0.125
+G00000003,Assessment 4,4,0.125
+G00000013,Assessment 4,4,0.125
+G00000004,Assessment 4,4,0.125
+G00000014,Assessment 4,4,0.125
+G00000005,Assessment 4,4,0.125
+G00000015,Assessment 4,4,0.125
+G00000006,Assessment 4,4,0.125
+G00000016,Assessment 4,4,0.125
+G00000010,Assessment 4,4,0.125
+G00000020,Assessment 4,4,0.125
+G00000009,Assessment 4,4,0.125
+G00000019,Assessment 4,4,0.125
+G00000008,Assessment 4,4,0.125
+G00000018,Assessment 4,4,0.125
