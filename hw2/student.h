@@ -3,11 +3,13 @@
 #include "assignment.h"
 
 const int MAX_SUBMISSIONS = 10;
+const int NUM_FILES = 3;
 
 class Student {
 public:
     Student();
     Student(const Student &obj);
+    Student(const char name[], const char gnum[]);
     ~Student();
 
     Student operator=(const Student &obj);
@@ -40,14 +42,14 @@ private:
 };
 
 
-void load(std::ifstream &name_file, std::ifstream &gnum_file, std::ifstream &assignment_file, Student roster[], int &size, const int &capacity);
-
+void load(Student roster[], int &size, const int &capacity);
+void load_files(std::ifstream &name_file, std::ifstream &gnum_file, std::ifstream &assignment_file, Student roster[], int &size, const int &capacity);
 void load_names(std::ifstream &name_file, Student roster[], const int &size);
 void load_gnums(std::ifstream &gnum_file, Student roster[], int &size, const int &capacity);
 void load_assignments(std::ifstream &assignment_file, Student roster[], const int &size);
 
 void display(const Student roster[], const int &size);
-void grade(const Student roster[], const int &size, const char name_or_gnum[]);
+void grade(const Student roster[], const int &size);
 void gpa(const Student roster[], const int &size);
 void pct(const Student roster[], const int &size);
 void remove(Student roster[], int &size);

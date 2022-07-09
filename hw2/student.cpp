@@ -2,6 +2,10 @@
 
 using namespace std;
 
+#define name_f 0
+#define gnum_f 1
+#define assignment_f 2
+
 Student::Student() {
     m_size = 0;
     m_capacity = MAX_SUBMISSIONS;
@@ -20,13 +24,44 @@ Student::Student(const Student &obj) {
     strcpy(m_name, obj.m_name);
     strcpy(m_gnum, obj.m_gnum);
 
+    for (int i = 0; i < m_capacity; i ++) {
+        m_submissions[i] = Assignment();
+    }
+
     for (int i = 0; i < min(m_capacity, obj.m_capacity); i ++) {
         m_submissions[i] = obj.m_submissions[i];
     }
 
     m_size = obj.m_size;
-    m_capacity = obj.m_capacity;
     m_grade = obj.m_grade;
+}
+
+Student::Student(const char name[], const char gnum[]) {
+    char err[MAX_CHARS + 1];
+    memset(err, 0, MAX_CHARS + 1);
+    strcpy(err, "?Invalid gnum: ");
+    strcat(err, gnum);
+    int len = strlen(gnum);
+    m_size = 0;
+    m_capacity = MAX_SUBMISSIONS;
+    m_grade = '\0';
+    memset(m_name, 0, MAX_CHARS + 1);
+    memset(m_gnum, 0, MAX_CHARS + 1);
+
+    if (gnum[0] != 'G' || len != 9) {
+        throw invalid_argument(err);
+    }
+    for (int i = 1; i < len; i ++) {
+        if (gnum[i] < '0' || gnum[i] > '9') {
+            throw invalid_argument(err);
+        }
+    }
+
+    strcpy(m_name, name);
+    strcpy(m_gnum, gnum);
+    for (int i = 0; i < m_capacity; i ++) {
+        m_submissions[i] = Assignment();
+    }
 }
 
 Student::~Student() {
@@ -46,12 +81,15 @@ Student Student::operator=(const Student &obj) {
     strcpy(m_name, obj.m_name);
     strcpy(m_gnum, obj.m_gnum);
 
+    for (int i = 0; i < m_capacity; i ++) {
+        m_submissions[i] = Assignment();
+    }
+
     for (int i = 0; i < min(m_capacity, obj.m_capacity); i ++) {
         m_submissions[i] = obj.m_submissions[i];
     }
 
     m_size = obj.m_size;
-    m_capacity = obj.m_capacity;
     m_grade = obj.m_grade;
 
     return *this;
@@ -65,13 +103,18 @@ void Student::get_name(char name[]) const {
 }
 void Student::set_gnum(const char gnum[]) {
     int len = strlen(gnum);
+    char err[MAX_CHARS + 1];
+    memset(err, 0, MAX_CHARS + 1);
+    strcpy(err, "?Invalid gnum: ");
+    strcat(err, gnum);
+
     if (gnum[0] != 'G' || len != 9) {
-        throw invalid_argument("Invalid gnum");
+        throw invalid_argument(err);
         return;
     }
     for (int i = 1; i < len; i ++) {
         if (gnum[i] < '0' || gnum[i] > '9') {
-            throw invalid_argument("Invalid gnum");
+            throw invalid_argument(err);
             return;
         }
     }
@@ -148,6 +191,10 @@ void Student::add_submission(Assignment submission) {
 
 void Student::remove_submission(const char assignment[]) {
     char temp_name[MAX_CHARS + 1];
+    memset(temp_name, 0, MAX_CHARS + 1);
+    char err[MAX_CHARS + 1];
+    memset(err, 0, MAX_CHARS + 1);
+
     for (int i = 0; i < m_size; i ++) {
         m_submissions[i].get_name(temp_name);
         if (strcmp(temp_name, assignment) == 0) {
@@ -158,10 +205,49 @@ void Student::remove_submission(const char assignment[]) {
             return;
         }
     }
-    throw invalid_argument("Assignment not found");
+    strcpy(err, "?Assignment not found: ");
+    strcat(err, assignment);
+    throw invalid_argument(err);
 }
 
-void load(ifstream &name_file, ifstream &gnum_file, ifstream &assignment_file, Student roster[], int &size, const int &capacity) {
+void load(Student roster[], int &size, const int &capacity) {
+    ifstream files[NUM_FILES];
+    char file_names[NUM_FILES][MAX_CHARS + 1];
+    for (int i = 0; i < NUM_FILES; i ++) {
+        memset(file_names[i], 0, MAX_CHARS + 1);
+    }
+
+    for (int i = 0; i < size; i ++) {
+        roster[i] = Student();
+    }
+    size = 0;
+
+    cout << "Enter file name of student names file of up to 30 characters: ";
+    cin.getline(file_names[name_f], MAX_CHARS);
+
+    cout << "Enter file name of student G-Number file of up to 30 characters: ";
+    cin.getline(file_names[gnum_f], MAX_CHARS);
+
+    cout << "Enter file name of student assignment file of up to 30 characters: ";
+    cin.getline(file_names[assignment_f], MAX_CHARS);
+
+    for (int i = 0; i < NUM_FILES; i ++) {
+        files[i].open(file_names[i]);
+        if (files[i].is_open()) {
+            cout << file_names[i] << " opened successfully." << endl;
+        }
+        else {
+            cerr << "?Unable to open file: " << file_names[i] << endl;
+            return;
+        }
+    }
+    load_files(files[name_f], files[gnum_f], files[assignment_f], roster, size, capacity);
+    for (int i = 0; i < NUM_FILES; i ++) {
+        files[i].close();
+    }
+}
+
+void load_files(ifstream &name_file, ifstream &gnum_file, ifstream &assignment_file, Student roster[], int &size, const int &capacity) {
     load_gnums(gnum_file, roster, size, capacity);
     load_names(name_file, roster, size);
     load_assignments(assignment_file, roster, size);
@@ -270,11 +356,11 @@ void load_assignments(ifstream &file, Student roster[], const int &size) {
                 }
                 catch (const length_error &err) {
                     cerr << err.what() << endl;
-                    break;
+                    continue;
                 }
                 catch (const invalid_argument &err) {
                     cerr << err.what() << endl;
-                    break;
+                    continue;
                 }
                 assignments_loaded ++;
             }
@@ -291,32 +377,38 @@ void display(const Student roster[], const int &size) {
     }
 }
 
-void grade(const Student roster[], const int &size, const char name_or_gnum[]) {
+void grade(const Student roster[], const int &size) {
     char compare[MAX_CHARS + 1];
     memset(compare, 0, MAX_CHARS + 1);
+    char name[MAX_CHARS + 1];
+    memset(name, 0, MAX_CHARS + 1);
+
     cout << endl;
+    cout << "Enter Student Name or Student G-Number: ";
+    cin.getline(name, MAX_CHARS);
+
     // Is it a gnum?
-    if ('0' <= name_or_gnum[1] && name_or_gnum[1] <= '9') {
+    if ('0' <= name[1] && name[1] <= '9') {
         for (int i = 0; i < size; i ++) {
             memset(compare, 0, MAX_CHARS + 1);
             roster[i].get_gnum(compare);
-            if (strcmp(compare, name_or_gnum) == 0) {
+            if (strcmp(compare, name) == 0) {
                 roster[i].print_grade();
                 return;
             }
         }
-        cerr << "?Unrecognized gnum: \"" << name_or_gnum << "\"" << endl;
+        cerr << "?Unrecognized gnum: \"" << name << "\"" << endl;
     }
     else {
         for (int i = 0; i < size; i ++) {
             memset(compare, 0, MAX_CHARS + 1);
             roster[i].get_name(compare);
-            if (strcmp(compare, name_or_gnum) == 0) {
+            if (strcmp(compare, name) == 0) {
                 roster[i].print_grade();
                 return;
             }
         }
-        cerr << "?Unrecognized name: \"" << name_or_gnum << "\"" << endl;
+        cerr << "?Unrecognized name: \"" << name << "\"" << endl;
     }
 }
 
@@ -402,12 +494,12 @@ void remove(Student roster[], int &size) {
     if (student_or_assignment == 'S') {
         memset(name, 0, MAX_CHARS + 1);
         cout << "Enter student name: ";
-        cin.getline(name, MAX_CHARS + 1);
+        cin.getline(name, MAX_CHARS);
         cout << "Removing student \"" << name << "\" from roster" << endl;
         try {
             remove_student(roster, size, name);
         }
-        catch (const invalid_argument &err){
+        catch (const invalid_argument &err) {
             cerr << err.what() << endl;
             return;
         }
@@ -417,9 +509,9 @@ void remove(Student roster[], int &size) {
         memset(name, 0, MAX_CHARS + 1);
         memset(assignment, 0, MAX_CHARS + 1);
         cout << "Enter student name: ";
-        cin.getline(name, MAX_CHARS + 1);
+        cin.getline(name, MAX_CHARS);
         cout << "Enter assignment name: ";
-        cin.getline(assignment, MAX_CHARS + 1);
+        cin.getline(assignment, MAX_CHARS);
         cout << "Removing all records of \"" << assignment << "\" for \"" << name << "\"" << endl;
         try {
             remove_assignment(roster, size, name, assignment);
@@ -441,6 +533,9 @@ void remove(Student roster[], int &size) {
 void remove_student(Student roster[], int &size, const char name[]) {
     char temp_name[MAX_CHARS + 1];
     memset(temp_name, 0, MAX_CHARS + 1);
+    char err[MAX_CHARS + 1];
+    memset(err, 0, MAX_CHARS + 1);
+
     for (int i = 0; i < size; i ++) {
         roster[i].get_name(temp_name);
         if (strcmp(temp_name, name) == 0) {
@@ -452,20 +547,32 @@ void remove_student(Student roster[], int &size, const char name[]) {
             return;
         }
     }
-    throw invalid_argument("Student not found");
+    strcpy(err, "?Student not found: ");
+    strcat(err, name);
+    throw invalid_argument(err);
 }
 void remove_assignment(Student roster[], const int &size, const char student_name[], const char assignment_name[]) {
     char temp_name[MAX_CHARS + 1];
     memset(temp_name, 0, MAX_CHARS + 1);
+    char err[MAX_CHARS + 1];
+    memset(err, 0, MAX_CHARS + 1);
+
     for (int i = 0; i < size; i ++) {
         roster[i].get_name(temp_name);
         if (strcmp(temp_name, student_name) == 0) {
-            roster[i].remove_submission(assignment_name);
+            try {
+                roster[i].remove_submission(assignment_name);
+            }
+            catch (const invalid_argument &err) {
+                throw err;
+            }
             roster[i].calculate_grade();
             return;
         }
     }
-    throw invalid_argument("Student not found");
+    strcpy(err, "?Student not found: ");
+    strcat(err, student_name);
+    throw invalid_argument(err);
 }
 
 void add(Student roster[], int &size, const int &capacity) {
@@ -482,9 +589,9 @@ void add(Student roster[], int &size, const int &capacity) {
         memset(name, 0, MAX_CHARS + 1);
         memset(assignment_or_gnum, 0, MAX_CHARS + 1);
         cout << "Enter student name: ";
-        cin.getline(name, MAX_CHARS + 1);
+        cin.getline(name, MAX_CHARS);
         cout << "Enter G-Number for " << name << ": ";
-        cin.getline(assignment_or_gnum, MAX_CHARS + 1);
+        cin.getline(assignment_or_gnum, MAX_CHARS);
         
         try {
             add_student(roster, size, capacity, name, assignment_or_gnum);
@@ -503,9 +610,9 @@ void add(Student roster[], int &size, const int &capacity) {
         memset(name, 0, MAX_CHARS + 1);
         memset(assignment_or_gnum, 0, MAX_CHARS + 1);
         cout << "Enter student name: ";
-        cin.getline(name, MAX_CHARS + 1);
+        cin.getline(name, MAX_CHARS);
         cout << "Enter assignment name: ";
-        cin.getline(assignment_or_gnum, MAX_CHARS + 1);
+        cin.getline(assignment_or_gnum, MAX_CHARS);
         cout << "Enter assignment weight: ";
         cin >> weight;
         cin.ignore(2, '\n');
@@ -514,7 +621,7 @@ void add(Student roster[], int &size, const int &capacity) {
         cin.ignore(2, '\n');
 
         try {
-            add_assignment(roster, size, name, assignment_or_gnum, weight, grade);
+            add_assignment(roster, size, name, assignment_or_gnum, grade, weight);
         }
         catch (const length_error &err){
             cerr << err.what() << endl;
@@ -534,17 +641,18 @@ void add(Student roster[], int &size, const int &capacity) {
     }
 }
 void add_student(Student roster[], int &size, const int &capacity, const char name[], const char gnum[]) {
+    Student s;
     if (size == capacity) {
-        throw length_error("Roster is full");
+        throw length_error("?Roster is full");
     }
     try {
-        roster[size].set_gnum(gnum);
+        s = Student(name, gnum);
     }
     catch (const invalid_argument &err){
         throw err;
         return;
     }
-    roster[size].set_name(name);
+    roster[size] = s;
     roster[size].calculate_grade();
     size ++;
 }
@@ -553,20 +661,33 @@ void add_assignment(Student roster[], const int &size, const char name[], const 
     memset(temp_name, 0, MAX_CHARS + 1);
     char temp_gnum[MAX_CHARS + 1];
     memset(temp_gnum, 0, MAX_CHARS + 1);
+    char err[MAX_CHARS + 1];
+    memset(err, 0, MAX_CHARS + 1);
+
     for (int i = 0; i < size; i ++) {
         roster[i].get_name(temp_name);
         if (strcmp(temp_name, name) == 0) {
             if (roster[i].get_size() == roster[i].get_capacity()) {
-                throw length_error("Student is full");
+                strcpy(err, "?Student is full: ");
+                strcat(err, name);
+                throw length_error(err);
                 return;
             }
             roster[i].get_gnum(temp_gnum);
-            roster[i].add_submission(Assignment(assignment, temp_gnum, grade, weight));
+            try {
+                roster[i].add_submission(Assignment(assignment, temp_gnum, grade, weight));
+            }
+            catch (const length_error &err) {
+                throw err;
+                return;
+            }
             roster[i].calculate_grade();
             return;
         }
     }
-    throw invalid_argument("Student not found");
+    strcpy(err, "?Student not found: ");
+    strcat(err, name);
+    throw invalid_argument(err);
 }
 
 char assignment_or_student() {

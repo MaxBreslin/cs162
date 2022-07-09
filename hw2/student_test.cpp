@@ -16,31 +16,24 @@ void get_name(char name[MAX_OPTION + 1]) {
 
 
 int main() {
-    char name_or_gnum[MAX_OPTION];
     Student roster[30];
     int size = 0;
     int capacity = 30;
     ifstream names_file("hw2_names.txt");
     ifstream gnums_file("hw2_gnums.txt");
     ifstream assignments_file("hw2_assignments.txt");
-    load(names_file, gnums_file, assignments_file, roster, size, capacity);
+    load_files(names_file, gnums_file, assignments_file, roster, size, capacity);
     names_file.close();
     gnums_file.close();
     assignments_file.close();
 
-    // get_name_or_gnum(name_or_gnum);
-    // grade(roster, size, name_or_gnum);
-    // pct(roster, size);
-    // gpa(roster, size);
-    // remove(roster, size);
-    char option;
+    display(roster, size);
     while (1) {
+        cout << "REMOVE" << endl;
+        remove(roster, size);
+        display(roster, size);
+        cout << "ADD" << endl;
         add(roster, size, capacity);
-        cout << "Option: ";
-        cin >> option;
-        cin.ignore(2, '\n');
-        if (option != 'c') { 
-            display(roster, size);
-        }
+        display(roster, size);
     }
 }
