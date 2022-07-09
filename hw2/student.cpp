@@ -496,44 +496,44 @@ void remove(Student roster[], int &size) {
     char assignment[MAX_CHARS + 1];
     memset(assignment, 0, MAX_CHARS + 1);
     
-    student_or_assignment = assignment_or_student();
-    if (student_or_assignment == 'S') {
-        memset(name, 0, MAX_CHARS + 1);
-        cout << "Enter student name: ";
-        cin.getline(name, MAX_CHARS);
-        cout << "Removing student \"" << name << "\" from roster" << endl;
-        try {
-            remove_student(roster, size, name);
+    while ((student_or_assignment = assignment_or_student()) != 'B') {
+        switch (student_or_assignment) {
+            case 'S':
+                memset(name, 0, MAX_CHARS + 1);
+                cout << "Enter student name: ";
+                cin.getline(name, MAX_CHARS);
+                cout << "Removing student \"" << name << "\" from roster" << endl;
+                try {
+                    remove_student(roster, size, name);
+                }
+                catch (const invalid_argument &err) {
+                    cerr << err.what() << endl;
+                    return;
+                }
+                cout << "done!" << endl;
+                return;
+            case 'A':
+                memset(name, 0, MAX_CHARS + 1);
+                memset(assignment, 0, MAX_CHARS + 1);
+                cout << "Enter student name: ";
+                cin.getline(name, MAX_CHARS);
+                cout << "Enter assignment name: ";
+                cin.getline(assignment, MAX_CHARS);
+                cout << "Removing all records of \"" << assignment << "\" for \"" << name << "\"" << endl;
+                try {
+                    remove_assignment(roster, size, name, assignment);
+                }
+                catch (const invalid_argument &err){
+                    cerr << err.what() << endl;
+                    return;
+                }
+                cout << "done!" << endl;
+                return;
+            default:
+                break;
         }
-        catch (const invalid_argument &err) {
-            cerr << err.what() << endl;
-            return;
-        }
-        cout << "done!" << endl;
     }
-    else if (student_or_assignment == 'A') {
-        memset(name, 0, MAX_CHARS + 1);
-        memset(assignment, 0, MAX_CHARS + 1);
-        cout << "Enter student name: ";
-        cin.getline(name, MAX_CHARS);
-        cout << "Enter assignment name: ";
-        cin.getline(assignment, MAX_CHARS);
-        cout << "Removing all records of \"" << assignment << "\" for \"" << name << "\"" << endl;
-        try {
-            remove_assignment(roster, size, name, assignment);
-        }
-        catch (const invalid_argument &err){
-            cerr << err.what() << endl;
-            return;
-        }
-        cout << "done!" << endl;
-    }
-    else if (student_or_assignment == 'B') {
-        cout << "Returning to previous menu" << endl;
-    }
-    else {
-        cerr << "?Unrecognized choice: \"" << student_or_assignment << "\"" << endl;
-    }
+    cout << "Returning to previous menu" << endl;
 }
 
 void remove_student(Student roster[], int &size, const char name[]) {
@@ -548,7 +548,6 @@ void remove_student(Student roster[], int &size, const char name[]) {
             for (int j = i; j < size - 1; j ++) {
                 roster[j] = roster[j + 1];
             }
-            roster[i].calculate_grade();
             size --;
             return;
         }
@@ -590,61 +589,61 @@ void add(Student roster[], int &size, const int &capacity) {
     char assignment_or_gnum[MAX_CHARS + 1];
     memset(assignment_or_gnum, 0, MAX_CHARS + 1);
     
-    student_or_assignment = assignment_or_student();
-    if (student_or_assignment == 'S') {
-        memset(name, 0, MAX_CHARS + 1);
-        memset(assignment_or_gnum, 0, MAX_CHARS + 1);
-        cout << "Enter student name: ";
-        cin.getline(name, MAX_CHARS);
-        cout << "Enter G-Number for " << name << ": ";
-        cin.getline(assignment_or_gnum, MAX_CHARS);
-        
-        try {
-            add_student(roster, size, capacity, name, assignment_or_gnum);
-        }
-        catch (const length_error &err){
-            cerr << err.what() << endl;
-            return;
-        }
-        catch (const invalid_argument &err){
-            cerr << err.what() << endl;
-            return;
-        }
-        cout << name << " (" << assignment_or_gnum << ") added" << endl;
-    }
-    else if (student_or_assignment == 'A') {
-        memset(name, 0, MAX_CHARS + 1);
-        memset(assignment_or_gnum, 0, MAX_CHARS + 1);
-        cout << "Enter student name: ";
-        cin.getline(name, MAX_CHARS);
-        cout << "Enter assignment name: ";
-        cin.getline(assignment_or_gnum, MAX_CHARS);
-        cout << "Enter assignment weight: ";
-        cin >> weight;
-        cin.ignore(2, '\n');
-        cout << "Enter assignment grade: ";
-        cin >> grade;
-        cin.ignore(2, '\n');
+    while ((student_or_assignment = assignment_or_student()) != 'B') {
+        switch (student_or_assignment) {
+            case 'S':
+                memset(name, 0, MAX_CHARS + 1);
+                memset(assignment_or_gnum, 0, MAX_CHARS + 1);
+                cout << "Enter student name: ";
+                cin.getline(name, MAX_CHARS);
+                cout << "Enter G-Number for " << name << ": ";
+                cin.getline(assignment_or_gnum, MAX_CHARS);
+                
+                try {
+                    add_student(roster, size, capacity, name, assignment_or_gnum);
+                }
+                catch (const length_error &err){
+                    cerr << err.what() << endl;
+                    return;
+                }
+                catch (const invalid_argument &err){
+                    cerr << err.what() << endl;
+                    return;
+                }
+                cout << name << " (" << assignment_or_gnum << ") added" << endl;
+                return;
+            case 'A':
+                memset(name, 0, MAX_CHARS + 1);
+                memset(assignment_or_gnum, 0, MAX_CHARS + 1);
+                cout << "Enter student name: ";
+                cin.getline(name, MAX_CHARS);
+                cout << "Enter assignment name: ";
+                cin.getline(assignment_or_gnum, MAX_CHARS);
+                cout << "Enter assignment weight: ";
+                cin >> weight;
+                cin.ignore(2, '\n');
+                cout << "Enter assignment grade: ";
+                cin >> grade;
+                cin.ignore(2, '\n');
 
-        try {
-            add_assignment(roster, size, name, assignment_or_gnum, grade, weight);
+                try {
+                    add_assignment(roster, size, name, assignment_or_gnum, grade, weight);
+                }
+                catch (const length_error &err){
+                    cerr << err.what() << endl;
+                    return;
+                }
+                catch (const invalid_argument &err){
+                    cerr << err.what() << endl;
+                    return;
+                }
+                cout << "\"" << assignment_or_gnum << "\" added to " << name << endl;
+                return;
+            default:
+                break;
         }
-        catch (const length_error &err){
-            cerr << err.what() << endl;
-            return;
-        }
-        catch (const invalid_argument &err){
-            cerr << err.what() << endl;
-            return;
-        }
-        cout << "\"" << assignment_or_gnum << "\" added to " << name << endl;
     }
-    else if (student_or_assignment == 'B') {
-        cout << "Returning to previous menu" << endl;
-    }
-    else {
-        cerr << "?Unrecognized choice: \"" << student_or_assignment << "\"" << endl;
-    }
+    cout << "Returning to previous menu" << endl;
 }
 void add_student(Student roster[], int &size, const int &capacity, const char name[], const char gnum[]) {
     Student s;
@@ -659,7 +658,6 @@ void add_student(Student roster[], int &size, const int &capacity, const char na
         return;
     }
     roster[size] = s;
-    roster[size].calculate_grade();
     size ++;
 }
 void add_assignment(Student roster[], const int &size, const char name[], const char assignment[], const int &grade, const float &weight) {
@@ -697,13 +695,22 @@ void add_assignment(Student roster[], const int &size, const char name[], const 
 }
 
 char assignment_or_student() {
-    char temp;
+    char temp[MAX_CHARS + 1];
+    memset(temp, 0, MAX_CHARS + 1);
+    char upper_temp[MAX_CHARS + 1];
+    memset(upper_temp, 0, MAX_CHARS + 1);
     cout << "Enter:" << endl
          << "        A or a  - for Assignment" << endl
          << "        S or s  - for Student" << endl
          << "        B or b  - return to previous" << endl
          << "Enter choice: ";
-    cin >> temp;
-    cin.ignore(2, '\n');
-    return toupper(temp);
+    cin.getline(temp, MAX_CHARS);
+    for (int i = 0; i < MAX_CHARS; i ++) {
+        upper_temp[i] = toupper(temp[i]);
+    }
+    if (strcmp(upper_temp, "A") != 0 && strcmp(upper_temp, "S") != 0 && strcmp(upper_temp, "B") != 0) {
+        cerr << "?Unrecognized choice: \"" << temp << "\"" << endl;
+        return '\0';
+    }
+    return upper_temp[0];
 }
