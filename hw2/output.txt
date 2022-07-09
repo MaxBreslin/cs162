@@ -155,7 +155,7 @@ Please enter one of the following options:
 	REMOVE       - Remove item from a list
 	ADD          - Add item to a list
 	QUIT         - End this program
-Enter Option: ds isplay
+Enter Option: display
  0. G00000026 Henrietta Smith Final Grade: A
         4 (10%) Structs
         4 (10%) Classes
