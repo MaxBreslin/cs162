@@ -18,7 +18,8 @@ Assignment::Assignment(const Assignment &obj) {
     m_weight = obj.m_weight;
 }
 
-Assignment::Assignment(const char name[], const char gnum[], int grade, double weight) {
+Assignment::Assignment(const char name[], const char gnum[], 
+                       int grade, double weight) {
     memset(m_name, 0, MAX_CHARS + 1);
     memset(m_gnum, 0, MAX_CHARS + 1);
     strcpy(m_name, name);
@@ -65,6 +66,7 @@ void Assignment::display() const {
 float Assignment::print_grade() const {
     float total = m_grade * m_weight;
     cout.precision(3);
-    cout << m_name << " Weight: " << m_weight * 100 << "%  Score: " << m_grade << " Contribution: " << total << endl;
+    cout << m_name << " Weight: " << m_weight * 100 << "%  Score: " 
+         << m_grade << " Contribution: " << total << endl;
     return total;
 }

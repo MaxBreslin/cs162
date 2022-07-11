@@ -3,6 +3,7 @@
 #include "student.h"
 
 const int MAX_STUDENTS = 30;
+const int NUM_OPTIONS = 8;
 
 // main is the starting point of the program and will call welcome and menu.
 int main();

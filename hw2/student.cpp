@@ -2,9 +2,9 @@
 
 using namespace std;
 
-#define name_f 0
-#define gnum_f 1
-#define assignment_f 2
+#define NAME_F 0
+#define GNUM_F 1
+#define ASSIGNMENT_F 2
 
 Student::Student() {
     m_size = 0;
@@ -21,7 +21,8 @@ Student::Student(const Student &obj) {
     m_size = 0;
     m_capacity = MAX_SUBMISSIONS;
     m_grade = '\0';
-    // Without memset first, strange values will fill the remaining space in the array.
+    // Without memset first, strange values will fill the 
+    // remaining space in the array.
     memset(m_name, 0, MAX_CHARS + 1);
     memset(m_gnum, 0, MAX_CHARS + 1);
     strcpy(m_name, obj.m_name);
@@ -129,9 +130,6 @@ void Student::set_gnum(const char gnum[]) {
 void Student::get_gnum(char gnum[]) const {
     strcpy(gnum, m_gnum);
 }
-void Student::set_grade(char grade) {
-    m_grade = grade;
-}
 char Student::get_grade() const {
     return m_grade;
 }
@@ -168,7 +166,8 @@ int Student::get_capacity() const {
 }
 
 void Student::display() const {
-    cout << m_gnum << " " << m_name << " Final Grade: " << m_grade << endl;
+    cout << m_gnum << " " << m_name << " Final Grade: " 
+         << m_grade << endl;
     for (int i = 0; i < m_size; i ++) {
         cout << "        ";
         m_submissions[i].display();
@@ -178,7 +177,8 @@ void Student::display() const {
 void Student::print_grade() const {
     float sum = 0.0F;
     cout.precision(2);
-    cout << m_gnum << " " << m_name << " Grade: " << m_grade << endl;
+    cout << m_gnum << " " << m_name << " Grade: " 
+         << m_grade << endl;
     for (int i = 0; i < m_size; i ++) {
         cout << "        ";
         sum += m_submissions[i].print_grade();
@@ -229,13 +229,13 @@ void load(Student roster[], int &size, const int &capacity) {
     size = 0;
 
     cout << "Enter file name of student names file of up to 30 characters: ";
-    cin.getline(file_names[name_f], MAX_CHARS);
+    cin.getline(file_names[NAME_F], MAX_CHARS);
 
     cout << "Enter file name of student G-Number file of up to 30 characters: ";
-    cin.getline(file_names[gnum_f], MAX_CHARS);
+    cin.getline(file_names[GNUM_F], MAX_CHARS);
 
     cout << "Enter file name of student assignment file of up to 30 characters: ";
-    cin.getline(file_names[assignment_f], MAX_CHARS);
+    cin.getline(file_names[ASSIGNMENT_F], MAX_CHARS);
 
     for (int i = 0; i < NUM_FILES; i ++) {
         files[i].open(file_names[i]);
@@ -247,13 +247,15 @@ void load(Student roster[], int &size, const int &capacity) {
             return;
         }
     }
-    load_files(files[name_f], files[gnum_f], files[assignment_f], roster, size, capacity);
+    load_files(files[NAME_F], files[GNUM_F], files[ASSIGNMENT_F], 
+               roster, size, capacity);
     for (int i = 0; i < NUM_FILES; i ++) {
         files[i].close();
     }
 }
 
-void load_files(ifstream &name_file, ifstream &gnum_file, ifstream &assignment_file, Student roster[], int &size, const int &capacity) {
+void load_files(ifstream &name_file, ifstream &gnum_file, ifstream &assignment_file, 
+                Student roster[], int &size, const int &capacity) {
     load_gnums(gnum_file, roster, size, capacity);
     load_names(name_file, roster, size);
     load_assignments(assignment_file, roster, size);
@@ -442,7 +444,8 @@ void gpa(const Student roster[], const int &size) {
 
     cout.precision(2);
     cout << endl
-         << "Average GPA for " << size << " students is " << sum / size << endl
+         << "Average GPA for " << size << " students is " 
+         << sum / size << endl
          << endl;
 }
 
@@ -477,15 +480,18 @@ void pct(const Student roster[], const int &size) {
     cout.width(20);
     cout << "Total Completions: " << left;
     cout.width(3);
-    cout << completions << "(" << 100.0 * completions / size << "%)" << endl << right;
+    cout << completions << "(" << 100.0 * completions / size 
+         << "%)" << endl << right;
     cout.width(20);
     cout << "Passing Grades: " << left;
     cout.width(3); 
-    cout << passing << "(" <<  100.0 * passing / size << "%)" << endl << right;
+    cout << passing << "(" <<  100.0 * passing / size << "%)" 
+         << endl << right;
     cout.width(20);
     cout << "Non-Passing Grades: " << left;
     cout.width(3);
-    cout << not_passing << "(" << 100.0 * not_passing / size << "%)" << endl << endl;
+    cout << not_passing << "(" << 100.0 * not_passing / size << "%)" 
+         << endl << endl;
     cout.setf(ios::dec, ios::floatfield);
 }
 
@@ -502,7 +508,8 @@ void remove(Student roster[], int &size) {
                 memset(name, 0, MAX_CHARS + 1);
                 cout << "Enter student name: ";
                 cin.getline(name, MAX_CHARS);
-                cout << "Removing student \"" << name << "\" from roster" << endl;
+                cout << "Removing student \"" << name 
+                     << "\" from roster" << endl;
                 try {
                     remove_student(roster, size, name);
                 }
@@ -519,7 +526,8 @@ void remove(Student roster[], int &size) {
                 cin.getline(name, MAX_CHARS);
                 cout << "Enter assignment name: ";
                 cin.getline(assignment, MAX_CHARS);
-                cout << "Removing all records of \"" << assignment << "\" for \"" << name << "\"" << endl;
+                cout << "Removing all records of \"" << assignment 
+                     << "\" for \"" << name << "\"" << endl;
                 try {
                     remove_assignment(roster, size, name, assignment);
                 }
@@ -556,7 +564,9 @@ void remove_student(Student roster[], int &size, const char name[]) {
     strcat(err, name);
     throw invalid_argument(err);
 }
-void remove_assignment(Student roster[], const int &size, const char student_name[], const char assignment_name[]) {
+void remove_assignment(Student roster[], const int &size, 
+                       const char student_name[], 
+                       const char assignment_name[]) {
     char temp_name[MAX_CHARS + 1];
     memset(temp_name, 0, MAX_CHARS + 1);
     char err[MAX_CHARS + 1];
@@ -645,7 +655,8 @@ void add(Student roster[], int &size, const int &capacity) {
     }
     cout << "Returning to previous menu" << endl;
 }
-void add_student(Student roster[], int &size, const int &capacity, const char name[], const char gnum[]) {
+void add_student(Student roster[], int &size, const int &capacity, 
+                 const char name[], const char gnum[]) {
     Student s;
     if (size == capacity) {
         throw length_error("?Roster is full");
@@ -660,7 +671,9 @@ void add_student(Student roster[], int &size, const int &capacity, const char na
     roster[size] = s;
     size ++;
 }
-void add_assignment(Student roster[], const int &size, const char name[], const char assignment[], const int &grade, const float &weight) {
+void add_assignment(Student roster[], const int &size, 
+                    const char name[], const char assignment[], 
+                    const int &grade, const float &weight) {
     char temp_name[MAX_CHARS + 1];
     memset(temp_name, 0, MAX_CHARS + 1);
     char temp_gnum[MAX_CHARS + 1];
@@ -679,7 +692,8 @@ void add_assignment(Student roster[], const int &size, const char name[], const 
             }
             roster[i].get_gnum(temp_gnum);
             try {
-                roster[i].add_submission(Assignment(assignment, temp_gnum, grade, weight));
+                roster[i].add_submission(Assignment(assignment, temp_gnum, 
+                                                    grade, weight));
             }
             catch (const length_error &err) {
                 throw err;
@@ -695,22 +709,26 @@ void add_assignment(Student roster[], const int &size, const char name[], const 
 }
 
 char assignment_or_student() {
-    char temp[MAX_CHARS + 1];
-    memset(temp, 0, MAX_CHARS + 1);
-    char upper_temp[MAX_CHARS + 1];
-    memset(upper_temp, 0, MAX_CHARS + 1);
+    char option[MAX_CHARS + 1];
+    memset(option, 0, MAX_CHARS + 1);
+    char upper_option[MAX_CHARS + 1];
+    memset(upper_option, 0, MAX_CHARS + 1);
+    char all_options[NUM_OTHER_OPTIONS][MAX_CHARS + 1] = {"S", "A", "B"};
+
     cout << "Enter:" << endl
          << "        A or a  - for Assignment" << endl
          << "        S or s  - for Student" << endl
          << "        B or b  - return to previous" << endl
          << "Enter choice: ";
-    cin.getline(temp, MAX_CHARS);
+    cin.getline(option, MAX_CHARS);
     for (int i = 0; i < MAX_CHARS; i ++) {
-        upper_temp[i] = toupper(temp[i]);
+        upper_option[i] = toupper(option[i]);
     }
-    if (strcmp(upper_temp, "A") != 0 && strcmp(upper_temp, "S") != 0 && strcmp(upper_temp, "B") != 0) {
-        cerr << "?Unrecognized choice: \"" << temp << "\"" << endl;
-        return '\0';
+    for (int i = 0; i < NUM_OTHER_OPTIONS; i ++) {
+        if (strcmp(upper_option, all_options[i]) == 0) {
+            return upper_option[0];
+        }
     }
-    return upper_temp[0];
+    cerr << "?Unrecognized choice: \"" << option << "\"" << endl;
+    return '\0';
 }

@@ -3,17 +3,15 @@
 // Assignment: Homework 2
 // Date: 7/4/2022
 // Description: This program will open an interactive menu, allowing a user to 
-//              read student data from a file and load it into an array of 
-//              Student structs. It will then let the user observe different 
-//              things about the data, including the mean GPA and participation 
-//              statistics. The program will run until the user decides to quit.
+//              read data from three files describing student G-Nums, names, 
+//              and assignments. It will then load the data into an array of 
+//              Student objects. The user can observe different things about 
+//              the data, including the mean GPA and participation statistics. 
+//              They can also add or remove students or assignments. The 
+//              program will run until the user decides to quit.
 //
-//              The program assumes that all data files have the same students
-//              (gnum, name, etc.).
-//
-// Input: Menu choices as strings and file containing comma-separated data in
-//        the format of "name, gnum, grade".
-// Output: Statistics about the input file data
+// Input: Menu choices as strings and files containing comma-separated strings
+// Output: Statistics about the input file data and confirming or error messages
 // Sources: None
 //******************************************************************************
 
@@ -55,12 +53,12 @@ int main() {
             case 'D':
                 add(roster, size, capacity);
                 break;
-            case 'Z': // Additional option to indicate an invalid option choice (while letting the program continue)
+            case 'Z': // Additional option to indicate an invalid option 
+                      // choice (while letting the program continue)
                 break;
             default:
                 cerr << "?Option error" << endl;
                 return EXIT_FAILURE;
-                break;
         }
      }
      cout << "[done]" << endl;
@@ -68,7 +66,8 @@ int main() {
 }
 
 void welcome() {
-    cout << "Welcome to my class management program! Options are entered as a word, not a single character." << endl;
+    cout << "Welcome to my class management program!"
+         << " Options are entered as a word, not a single character." << endl;
 }
 
 char menu() {
@@ -76,6 +75,16 @@ char menu() {
     memset(option, 0, MAX_CHARS + 1);
     char upper_option[MAX_CHARS + 1];
     memset(upper_option, 0, MAX_CHARS + 1);
+    char all_options[NUM_OPTIONS][MAX_CHARS + 1] = {
+        "LOAD",
+        "DISPLAY",
+        "GPA",
+        "PCT",
+        "GRADE",
+        "REMOVE",
+        "ADD",
+        "QUIT"
+    };
 
     cout << left << "Please enter one of the following options:" << endl;
     cout.width(14);
@@ -99,11 +108,11 @@ char menu() {
     for (int i = 0; i < MAX_CHARS; i ++) {
         upper_option[i] = toupper(option[i]);
     }
-    if (strcmp(upper_option, "LOAD") != 0 && strcmp(upper_option, "DISPLAY") != 0 && strcmp(upper_option, "GPA") != 0 
-        && strcmp(upper_option, "PCT") != 0 && strcmp(upper_option, "QUIT") != 0 && strcmp(upper_option, "GRADE") != 0
-        && strcmp(upper_option, "REMOVE") != 0 && strcmp(upper_option, "ADD") != 0) {
-        cerr << "?Unrecognized option: \"" << option << "\"" << endl;
-        return 'Z';
+    for (int i = 0; i < NUM_OPTIONS; i ++) {
+        if (strcmp(upper_option, all_options[i]) == 0) {
+            return upper_option[1];
+        }
     }
-    return toupper(option[1]);
+    cerr << "?Unrecognized option: \"" << option << "\"" << endl;
+    return 'Z';
 }
