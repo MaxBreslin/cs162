@@ -36,13 +36,15 @@ Assignment::~Assignment() {
 }
 
 Assignment Assignment::operator=(const Assignment &obj) {
-    memset(m_name, 0, MAX_CHARS + 1);
-    memset(m_gnum, 0, MAX_CHARS + 1);
-    strcpy(m_name, obj.m_name);
-    strcpy(m_gnum, obj.m_gnum);
-    m_grade = obj.m_grade;
-    m_weight = obj.m_weight;
-
+    if (this != &obj) {
+        memset(m_name, 0, MAX_CHARS + 1);
+        memset(m_gnum, 0, MAX_CHARS + 1);
+        strcpy(m_name, obj.m_name);
+        strcpy(m_gnum, obj.m_gnum);
+        m_grade = obj.m_grade;
+        m_weight = obj.m_weight;
+    }
+    
     return *this;
 }
 

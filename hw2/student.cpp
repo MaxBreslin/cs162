@@ -80,24 +80,26 @@ Student::~Student() {
 }
 
 Student Student::operator=(const Student &obj) {
-    m_size = 0;
-    m_capacity = MAX_SUBMISSIONS;
-    m_grade = '\0';
-    memset(m_name, 0, MAX_CHARS + 1);
-    memset(m_gnum, 0, MAX_CHARS + 1);
-    strcpy(m_name, obj.m_name);
-    strcpy(m_gnum, obj.m_gnum);
+    if (this != &obj) {
+        m_size = 0;
+        m_capacity = MAX_SUBMISSIONS;
+        m_grade = '\0';
+        memset(m_name, 0, MAX_CHARS + 1);
+        memset(m_gnum, 0, MAX_CHARS + 1);
+        strcpy(m_name, obj.m_name);
+        strcpy(m_gnum, obj.m_gnum);
 
-    for (int i = 0; i < m_capacity; i ++) {
-        m_submissions[i] = Assignment();
+        for (int i = 0; i < m_capacity; i ++) {
+            m_submissions[i] = Assignment();
+        }
+
+        for (int i = 0; i < min(m_capacity, obj.m_capacity); i ++) {
+            m_submissions[i] = obj.m_submissions[i];
+        }
+
+        m_size = obj.m_size;
+        m_grade = obj.m_grade;
     }
-
-    for (int i = 0; i < min(m_capacity, obj.m_capacity); i ++) {
-        m_submissions[i] = obj.m_submissions[i];
-    }
-
-    m_size = obj.m_size;
-    m_grade = obj.m_grade;
 
     return *this;
 }
