@@ -1,0 +1,43 @@
+Script started on 2022-07-14 23:22:32-07:00
+]0;max.breslin@vmcslinuxprod01:~/cs162/practice1max.breslin@vmcslinuxprod01:~/cs162/practice1 $ g++ -o main  main.cpp data.cpp
+]0;max.breslin@vmcslinuxprod01:~/cs162/practice1max.breslin@vmcslinuxprod01:~/cs162/practice1 $ valgrind --l eak-check=full ./main
+==3428516== Memcheck, a memory error detector
+==3428516== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==3428516== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==3428516== Command: ./main
+==3428516== 
+lrwxrwxrwx. 1 root root 7 Oct 9 2021  bin -> usr/bin
+dr-xr-xr-x. 6 root root 4096 Jun 27 00:43  boot
+drwxr-xr-x. 20 root root 3300 Jun 27 00:42  dev
+drwxr-xr-x. 98 root root 12288 Jun 28 10:07  etc
+drwxr-xr-x. 12 root root 4096 Jan 31 02:00  home
+lrwxrwxrwx. 1 root root 7 Oct 9 2021  lib -> usr/lib
+lrwxrwxrwx. 1 root root 9 Oct 9 2021  lib64 -> usr/lib64
+drwx------. 2 root root 16384 Jan 23 2020  lost+found
+drwxr-xr-x. 2 root root 4096 Oct 9 2021  media
+drwxr-xr-x. 3 root root 4096 Oct 9 2021  mnt
+drwxr-xr-x. 6 root root 4096 Oct 9 2021  opt
+dr-xr-xr-x. 238 root root 0 Jun 26 17:42  proc
+dr-xr-x---. 6 root root 4096 Jun 24 19:28  root
+drwxr-xr-x. 29 root root 820 Jun 27 00:42  run
+lrwxrwxrwx. 1 root root 8 Oct 9 2021  sbin -> usr/sbin
+drwxr-xr-x. 2 root root 4096 Oct 9 2021  srv
+dr-xr-xr-x. 13 root root 0 Jun 27 00:42  sys
+drwxrwxrwt. 124 root root 36864 Jun 28 10:32  tmp
+drwxr-xr-x. 13 root root 4096 Jan 24 00:31  usr
+drwxr-xr-x. 24 root root 4096 Jun 8 09:31  var
+
+[done]
+==3428516== 
+==3428516== HEAP SUMMARY:
+==3428516==     in use at exit: 0 bytes in 0 blocks
+==3428516==   total heap usage: 4 allocs, 4 frees, 82,408 bytes allocated
+==3428516== 
+==3428516== All heap blocks were freed -- no leaks are possible
+==3428516== 
+==3428516== For lists of detected and suppressed errors, rerun with: -s
+==3428516== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+]0;max.breslin@vmcslinuxprod01:~/cs162/practice1max.breslin@vmcslinuxprod01:~/cs162/practice1 $ exit
+exit
+
+Script done on 2022-07-14 23:23:02-07:00
