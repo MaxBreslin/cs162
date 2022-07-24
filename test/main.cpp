@@ -2,30 +2,33 @@
 
 using namespace std;
 
-class Test {
+class Simple {
 public:
-    Test();
-    Test(const Test &passed);
-    int get_int(void) const { return m_test_int; }
-    void set_int(int val) { m_test_int = val; }
+    Simple();
+    Simple(int set);
+    int get_int() {return m_int;}
+    void set_int(int set) {m_int = set;}
 private:
-    int m_test_int;
+    int m_int;
 };
 
-Test::Test() {
-    m_test_int = 5;
-}
-
-Test::Test(const Test &passed) {
-    m_test_int = passed.m_test_int;
-}
-
 int main() {
-    Test test1;
-    test1.set_int(10);
-    Test test2(test1);
-    test1.set_int(20);
-    cout << test1.get_int() << "\n";
-    cout << test2.get_int() << "\n";
+    int * p_test = new int;
+    *p_test = 1;
+    cout << p_test << endl;
+    cout << *p_test << endl;
+
+    char * b_char = new char;
+    *b_char = 'a';
+    cout << b_char << endl;
+    cout << *b_char << endl;
+
     return 0;
+}
+
+Simple::Simple() {
+    m_int = 0;
+}
+Simple::Simple(int set) {
+    m_int = set;
 }
