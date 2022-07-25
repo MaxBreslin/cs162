@@ -1,0 +1,23 @@
+Script started on 2022-07-25 10:26:32-07:00
+]0;max.breslin@vmcslinuxprod01:~/cs162/hw3max.breslin@vmcslinuxprod01:~/cs162/hw3 $ cat input.txt
+hello world this is the first line
+hello world this is the second line
+hello world this is the third line
+goodbye world]0;max.breslin@vmcslinuxprod01:~/cs162/hw3max.breslin@vmcslinuxprod01:~/cs162/hw3 $ ./main
+Enter input file name: input.tx
+File not found
+Enter input file name: input.txt
+Word: "first" Count: 1
+Word: "goodbye" Count: 1
+Word: "hello" Count: 3
+Word: "is" Count: 3
+Word: "line" Count: 3
+Word: "second" Count: 1
+Word: "the" Count: 3
+Word: "third" Count: 1
+Word: "this" Count: 3
+Word: "world" Count: 4
+]0;max.breslin@vmcslinuxprod01:~/cs162/hw3max.breslin@vmcslinuxprod01:~/cs162/hw3 $ exit
+exit
+
+Script done on 2022-07-25 10:26:47-07:00
