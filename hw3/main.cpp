@@ -5,7 +5,7 @@
 // Description: This program will prompt the user to input a filename. It will
 //              then read the contents of the file and append every character
 //              to a single dynamic c-string. This string will be tokenized and
-//              each individual word will be appeneded to a list of words.
+//              each individual word will be appended to a list of words.
 //              Duplicates are not appended and the word object holding the
 //              pointer to the duplicate word is updated accordingly (the count 
 //              member variable is incremented). After every token has been
@@ -98,9 +98,13 @@ char * create_string(std::ifstream &infile) {
     char byte = 0;
     while(infile.good() && infile.peek() != EOF) {
         byte = infile.get();
+
+        // This corrects tokenization errors like "line
+        //                                         hello"
         if (byte == '\n') {
             byte = ' ';
         }
+
         if (total_string) {
             temp = new char[size + 2];
             memset(temp, 0, size + 2);
