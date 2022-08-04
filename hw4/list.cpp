@@ -7,10 +7,7 @@ List::List() {
 
 List::List(const List &obj) {
     if (obj.index) {
-        index = new Word[obj.size];
-        for (int i = 0; i < obj.size; i ++) {
-            index[i] = obj.index[i];
-        }
+        index = new Node(*obj.index);
         size = obj.size;
     }
     else {
@@ -20,12 +17,11 @@ List::List(const List &obj) {
 }
 
 List::~List() {
-    if (index) {
-        for (int i = 0; i < size; i ++) {
-            index[i].~Word();
-        }
-        delete[] index;
-        index = nullptr;
+    Node *curr = index;
+    while (curr) {
+        index = curr->next;
+        delete curr;
+        curr = index;
     }
     size = 0;
 }
@@ -34,15 +30,12 @@ List & List::operator=(const List &obj) {
     if (this != &obj) {
         if (index) {
             for (int i = 0; i < size; i ++) {
-                index[i].~Word();
+                index[i].~Node();
             }
-            delete[] index;
+            index = nullptr;
         }
         if (obj.index) {
-            index = new Word[obj.size];
-            for (int i = 0; i < obj.size; i ++) {
-                index[i] = obj.index[i];
-            }
+            index = new Node(*obj.index);
             size = obj.size;
         }
         else {
@@ -53,7 +46,27 @@ List & List::operator=(const List &obj) {
     return *this;
 }
 
-int List::get_size() const {
+Node & List::operator[](const std::size_t &index) {
+    if (index >= size) {
+        throw std::out_of_range("Index out of range");
+    }
+    return *counted_traversal(index);
+}
+const Node & List::operator[](const std::size_t &index) const {
+
+}
+
+Node * List::counted_traversal(const std::size_t &index) {
+    Node * curr = this->index;
+    int pos = 0;
+    while(curr->next != nullptr && pos != index) {
+        pos ++;
+        curr = curr->next;
+    }
+    return curr;
+}
+
+int List::length() const {
     return size;
 }
 
