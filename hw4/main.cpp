@@ -26,7 +26,7 @@ int main() {
     std::ifstream infile;
     char * total_string = nullptr;
     char * token = nullptr;
-    int word_index = 0;
+    Node * found_node = nullptr;
 
     file_name = get_fname();
     infile.open(file_name);
@@ -42,11 +42,11 @@ int main() {
     
     token = strtok(total_string, " ");
     while (token) {
-        if ((word_index = list.contains(token)) != list.get_size()) {
-            list.get_index(word_index).increment_count();
+        if ((found_node = list.find(token))) {
+            found_node->data->increment_count();
         }
         else {
-            list.insert(Word(token));
+            list.sorted_insert(Word(token));
         }
 
         token = strtok(nullptr, " ");
@@ -54,9 +54,7 @@ int main() {
     memset(total_string, 0, strlen(total_string));
     delete[] total_string;
     
-
-    list.sort();
-    list.print();
+    std::cout << list;
 
     return 0;
 }

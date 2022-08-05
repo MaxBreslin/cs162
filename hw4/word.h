@@ -13,7 +13,6 @@ public:
     Word & operator=(const Word &);
 
     friend std::ostream & operator<<(std::ostream &, const Word &);
-    friend std::istream & operator>>(std::istream &, Word &);
 
     // Simply returns this->count
     int get_count() const;

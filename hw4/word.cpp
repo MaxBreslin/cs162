@@ -58,39 +58,8 @@ Word & Word::operator=(const Word &obj) {
 }
 
 std::ostream & operator<<(std::ostream &out, const Word &obj) {
-    out << obj.data;
+    out << '"' << obj.data << "\" Count: " << obj.count << std::endl;
     return out;
-}
-std::istream & operator>>(std::istream &in, Word &obj) {
-    delete obj.data;
-    
-    char * file_name = nullptr;
-    char * temp = nullptr;
-    int size = 0;
-    char byte = 0;
-
-    std::cout << "Enter input file name: ";
-    while(std::cin.good() && std::cin.peek() != '\n') {
-        byte = std::cin.get();
-        if (file_name) {
-            temp = new char[size + 2];
-            memset(temp, 0, size + 2);
-            strcpy(temp, file_name);
-            memset(file_name, 0, size + 1);
-            delete[] file_name;
-            file_name = temp;
-            file_name[size ++] = byte;
-        } 
-        else {
-            file_name = new char[size + 2];
-            memset(file_name, 0, size + 2);
-            file_name[0] = byte;
-            size = 1;
-        }
-    }
-    std::cin.ignore(2, '\n');
-    std::cin.clear();
-    return in;
 }
 
 int Word::get_count() const {

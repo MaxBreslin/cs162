@@ -7,7 +7,13 @@ List::List() {
 
 List::List(const List &obj) {
     if (obj.index) {
-        index = new Node(*obj.index);
+        Node * curr = new Node;
+        index = curr;
+        for (size_t i = 0; i < obj.length(); i ++) {
+            curr->data = new Word(*obj[i].data);
+            curr->next = new Node;
+            curr = curr->next;
+        }
         size = obj.size;
     }
     else {
@@ -17,25 +23,32 @@ List::List(const List &obj) {
 }
 
 List::~List() {
-    Node *curr = index;
+    Node * curr = index->next;
     while (curr) {
-        index = curr->next;
-        delete curr;
-        curr = index;
+        delete index;
+        index = curr;
+        curr = index->next;
     }
+    index = nullptr;
     size = 0;
 }
 
-List & List::operator=(const List &obj) {
+List& List::operator=(const List &obj) {
     if (this != &obj) {
-        if (index) {
-            for (int i = 0; i < size; i ++) {
-                index[i].~Node();
-            }
-            index = nullptr;
+        Node * curr = index->next;
+        while (curr) {
+            delete index;
+            index = curr;
+            curr = index->next;
         }
         if (obj.index) {
-            index = new Node(*obj.index);
+            Node * curr = new Node;
+            index = curr;
+            for (size_t i = 0; i < obj.length(); i ++) {
+                curr->data = new Word(*obj[i].data);
+                curr->next = new Node;
+                curr = curr->next;
+            }
             size = obj.size;
         }
         else {
@@ -46,119 +59,122 @@ List & List::operator=(const List &obj) {
     return *this;
 }
 
-Node & List::operator[](const std::size_t &index) {
+Node & List::operator[](const size_t &index) {
     if (index >= size) {
         throw std::out_of_range("Index out of range");
     }
     return *counted_traversal(index);
 }
-const Node & List::operator[](const std::size_t &index) const {
-
+const Node & List::operator[](const size_t &index) const {
+    if (index >= size) {
+        throw std::out_of_range("Index out of range");
+    }
+    return *counted_traversal(index);
 }
 
-Node * List::counted_traversal(const std::size_t &index) {
+std::ostream & operator<<(std::ostream &out, const List &obj) {
+    Node * curr = obj.index;
+    while (curr) {
+        out << *curr->data;
+        curr = curr->next;
+    }
+    return out;
+}
+
+Node * List::counted_traversal(const size_t &index) const {
     Node * curr = this->index;
     int pos = 0;
-    while(curr->next != nullptr && pos != index) {
+    while(curr && pos != index) {
         pos ++;
         curr = curr->next;
     }
     return curr;
 }
 
-int List::length() const {
+size_t List::length() const {
     return size;
 }
 
-Word & List::get_index(const int &index) const {
-    if (index < size) {
-        return this->index[index];
-    }
-    throw std::out_of_range("Index out of range");
-}
-
-void List::insert(const Word &obj) {
-    Word * temp = nullptr;
+void List::sorted_insert(const Node &node) {
     if (index) {
-        temp = new Word[size + 1];
-        for (int i = 0; i < size; i ++) {
-            temp[i] = index[i];
+        Node * curr = index;
+        Node * prev = nullptr;
+        Node * temp = nullptr;
+        while (curr->next) {
+            if (strcmp(curr->data->get_data(), node.data->get_data()) > 0) {
+                break;
+            }
+            prev = curr;
+            curr = curr->next;
         }
-        temp[size] = obj;
-        delete[] index;
-        index = temp;
+        if (!prev) {
+            temp = new Node;
+            temp->data = new Word(*node.data);
+            temp->next = index;
+            index = temp;
+            return;
+        }
+        temp = new Node;
+        prev->next = temp;
+        temp->data = new Word(*node.data);
+        temp->next = curr;
+        size ++;
+        return;
     }
-    else {
-        index = new Word[1];
-        index[0] = obj;
+    index = new Node;
+    index->data = new Word(*node.data);
+    index->next = nullptr;
+    size ++;
+}
+void List::sorted_insert(const Word &word) {
+    if (index) {
+        Node * curr = index;
+        Node * prev = nullptr;
+        Node * temp = nullptr;
+        while (curr) {
+            if (strcmp(curr->data->get_data(), word.get_data()) > 0) {
+                break;
+            }
+            prev = curr;
+            curr = curr->next;
+        }
+        if (!prev) {
+            temp = new Node;
+            temp->data = new Word(word);
+            temp->next = index;
+            index = temp;
+            return;
+        }
+        temp = new Node;
+        prev->next = temp;
+        temp->data = new Word(word);
+        temp->next = curr;
+        size ++;
+        return;
     }
+    index = new Node;
+    index->data = new Word(word);
+    index->next = nullptr;
     size ++;
 }
 
-int List::contains(char * const &str) const {
-    char * testable_word = nullptr;
-
-    if (str) {
-        for (int i = 0; i < size; i ++) {
-            testable_word = index[i].get_data();
-            if (strcmp(testable_word, str) == 0) {
-                delete[] testable_word;
-                return i;
-            }
-            delete[] testable_word;
+Node * List::find(const Node &node) const {
+    Node * curr = index;
+    while (curr) {
+        if (strcmp(curr->data->get_data(), node.data->get_data()) == 0) {
+            break;
         }
+        curr = curr->next;
     }
-
-    return size;
+    return curr;
 }
-
-int List::contains(const Word &word) const {
-    char * this_word = word.get_data();
-    char * testable_word = nullptr;
-
-    for (int i = 0; i < size; i ++) {
-        testable_word = index[i].get_data();
-        if (strcmp(this_word, testable_word) == 0) {
-            delete[] testable_word;
-            delete[] this_word;
-            return i;
+Node * List::find(const char *str) const {
+    Node * curr = index;
+    while (curr) {
+        if (strcmp(curr->data->get_data(), str) == 0) {
+            break;
         }
-        delete[] testable_word;
+        curr = curr->next;
     }
-
-    delete[] this_word;
-
-    return size;
-}
-
-void List::sort() {
-    Word temp;
-    bool swapped = true;
-    char * this_word = nullptr;
-    char * that_word = nullptr;
-    
-    while (swapped) {
-        swapped = false;
-        for (int i = 0; i < size - 1; i ++) {
-            this_word = index[i].get_data();
-            that_word = index[i + 1].get_data();
-            if (strcmp(this_word, that_word) > 0) {
-                temp = index[i];
-                index[i] = index[i + 1];
-                index[i + 1] = temp;
-                swapped = true;
-            }
-            delete[] this_word;
-            delete[] that_word;
-        }
-    }
-}
-
-void List::print() const {
-    char * temp = nullptr;
-    for (int i = 0; i < size; i ++) {
-        temp = index[i].get_data();
-        std::cout << "Word: \"" << temp << "\" Count: " << index[i].get_count() << std::endl;
-        delete[] temp;
-    }
+    return curr;
 }
