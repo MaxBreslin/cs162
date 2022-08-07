@@ -31,3 +31,9 @@ private:
     char * data;
     int count;
 };
+
+bool operator>(const Word &, const Word &);
+bool operator==(const Word &, const Word &);
+bool operator==(const Word &, const char * const &);
+bool operator==(const char * const &, const Word &);
+bool operator>=(const Word &, const Word &);

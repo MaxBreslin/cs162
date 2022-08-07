@@ -99,3 +99,49 @@ char * Word::get_data() const {
 void Word::increment_count() {
     count ++;
 }
+
+bool operator>(const Word &lhs, const Word &rhs) {
+    char * temp_rhs = rhs.get_data();
+    char * temp_lhs = lhs.get_data();
+    bool result = 0;
+    if (strcmp(temp_lhs, temp_rhs) > 0) {
+        result = 1;
+    }
+    delete[] temp_rhs;
+    delete[] temp_lhs;
+    return result;
+}
+
+bool operator==(const Word &lhs, const Word &rhs) {
+    char * temp_rhs = rhs.get_data();
+    char * temp_lhs = lhs.get_data();
+    bool result = 0;
+    if (strcmp(temp_lhs, temp_rhs) == 0) {
+        result = 1;
+    }
+    delete[] temp_rhs;
+    delete[] temp_lhs;
+    return result;
+}
+bool operator==(const Word &lhs, const char * const &rhs) {
+    char * temp_lhs = lhs.get_data();
+    bool result = 0;
+    if (strcmp(temp_lhs, rhs) == 0) {
+        result = 1;
+    }
+    delete[] temp_lhs;
+    return result;
+}
+bool operator==(const char * const &lhs, const Word &rhs) {
+    char * temp_rhs = rhs.get_data();
+    bool result = 0;
+    if (strcmp(lhs, temp_rhs) == 0) {
+        result = 1;
+    }
+    delete[] temp_rhs;
+    return result;
+}
+
+bool operator>=(const Word &lhs, const Word &rhs) {
+    return (lhs > rhs || lhs == rhs);
+}

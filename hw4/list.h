@@ -14,12 +14,9 @@ public:
     
     // Simply returns this->size
     size_t length() const;
-    // Returns a reference to the word at the 
-    // passed location in this->index
-    Node & get_index(const int &) const;
 
     void sorted_insert(const Node &);
-    void sorted_insert(const Word &);
+    void sorted_insert(Word * const &);
     Node * find(const Node &) const;
     Node * find(const char *) const;
 
