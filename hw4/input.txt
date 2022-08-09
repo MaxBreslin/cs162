@@ -1,4 +1,0 @@
-hello world this is the first line
-hello world this is the second line
-hello world this is the third line
-goodbye world
