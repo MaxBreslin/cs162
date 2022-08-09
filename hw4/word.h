@@ -8,7 +8,7 @@ class Word {
 public:
     Word();
     Word(const Word &);
-    Word(char * const &);
+    Word(const char * const &);
     ~Word();
     Word & operator=(const Word &);
 
@@ -16,15 +16,16 @@ public:
 
     // Simply returns this->count
     int get_count() const;
+
     // Creates a new dynamic c-string with the
     // value of the passed c-string and sets
-    // this->data to it
-    void set_data(char * const &);
+    // this->data to it.
+    void set_data(const char * const &);
     // Copies this->data into a new dynamic c-string
-    // and returns a pointer to it
+    // and returns a pointer to it.
     char * get_data() const;
 
-    // Increments this->count by one
+    // Increments this->count by one.
     void increment_count();
 
 private:
@@ -33,7 +34,20 @@ private:
 };
 
 bool operator>(const Word &, const Word &);
+bool operator>(const Word &, const char * const &);
+bool operator>(const char * const &, const Word &);
 bool operator==(const Word &, const Word &);
 bool operator==(const Word &, const char * const &);
 bool operator==(const char * const &, const Word &);
 bool operator>=(const Word &, const Word &);
+bool operator>=(const Word &, const char * const &);
+bool operator>=(const char * const &, const Word &);
+bool operator<(const Word &, const Word &);
+bool operator<(const Word &, const char * const &);
+bool operator<(const char * const &, const Word &);
+bool operator<=(const Word &, const Word &);
+bool operator<=(const Word &, const char * const &);
+bool operator<=(const char * const &, const Word &);
+bool operator!=(const Word &, const Word &);
+bool operator!=(const Word &, const char * const &);
+bool operator!=(const char * const &, const Word &);

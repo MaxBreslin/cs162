@@ -94,8 +94,8 @@ void List::append(Node * const &node) {
 }
 void List::append(const Node &node) {
     Node * temp = new Node;
-    temp->data = node.data;
-    temp->next = node.next;
+    temp->data = new Word(*node.data);
+    temp->next = nullptr;
     append(temp);
 }
 
@@ -134,6 +134,12 @@ void List::sorted_insert(Node * const &node) {
     }
     size ++;
 }
+void List::sorted_insert(const Node &node) {
+    Node * temp = new Node;
+    temp->data = new Word(*node.data);
+    temp->next = nullptr;
+    sorted_insert(temp);
+}
 void List::sorted_insert(const Word &word) {
     Node * temp = new Node;
     temp->data = new Word(word);
@@ -141,7 +147,7 @@ void List::sorted_insert(const Word &word) {
     sorted_insert(temp);
 }
 
-Node * List::find(const char *str) const {
+Node * List::find(const char * const &str) const {
     Node * temp = nullptr;
     for (size_t i = 0; i < size; i ++) {
         if (*(temp = counted_traversal(i)) == str) {

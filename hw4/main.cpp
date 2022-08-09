@@ -1,15 +1,15 @@
 //******************************************************************************
 // Author: Max Breslin
-// Assignment: Homework 3
-// Date: 7/19/2022
+// Assignment: Homework 4
+// Date: 8/2/2022
 // Description: This program will prompt the user to input a filename. It will
 //              then read the contents of the file and append every character
 //              to a single dynamic c-string. This string will be tokenized and
-//              each individual word will be appended to a list of words.
-//              Duplicates are not appended and the word object holding the
-//              pointer to the duplicate word is updated accordingly (the count 
-//              member variable is incremented). After every token has been
-//              read, the final list will be printed.
+//              each individual word will be sorted alphetically to a linked 
+//              list of words. Duplicates are not appended and the word object
+//              holding the pointer to the duplicate word is updated accordingly
+//              (the count member variable is incremented). After every token
+//              has been read, the final list will be printed.
 //              
 //
 // Input: The filename as a string and a file containing space-separated 

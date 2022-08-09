@@ -7,7 +7,20 @@ struct Node {
 };
 
 bool operator>(const Node &, const Node &);
+bool operator>(const Node &, const char * const &);
+bool operator>(const char * const &, const Node &);
 bool operator==(const Node &, const Node &);
 bool operator==(const Node &, const char * const &);
 bool operator==(const char * const &, const Node &);
 bool operator>=(const Node &, const Node &);
+bool operator>=(const Node &, const char * const &);
+bool operator>=(const char * const &, const Node &);
+bool operator<(const Node &, const Node &);
+bool operator<(const Node &, const char * const &);
+bool operator<(const char * const &, const Node &);
+bool operator<=(const Node &, const Node &);
+bool operator<=(const Node &, const char * const &);
+bool operator<=(const char * const &, const Node &);
+bool operator!=(const Node &, const Node &);
+bool operator!=(const Node &, const char * const &);
+bool operator!=(const char * const &, const Node &);
