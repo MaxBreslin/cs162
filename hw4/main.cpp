@@ -27,7 +27,6 @@ int main() {
     char * total_string = nullptr;
     char * token = nullptr;
     Node * found_node = nullptr;
-    Word * this_word = nullptr;
 
     file_name = get_fname();
     infile.open(file_name);
@@ -48,8 +47,7 @@ int main() {
             found_node->data->increment_count();
         }
         else {
-            this_word = new Word(token);
-            list.sorted_insert(this_word);
+            list.sorted_insert(Word(token));
         }
 
         token = strtok(nullptr, " ");

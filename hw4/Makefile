@@ -11,16 +11,8 @@ TARGET = main
 
 all: $(TARGET)
 
-$(TARGET): main.o list.o word.o
-	$(CC) $(CFLAGS) -o $(TARGET) main.o list.o word.o
-
-main.o: main.cpp list.h
-	$(CC) $(CFLAGS) -c main.cpp
-
-list.o: list.h
-
-word.o: word.h
+$(TARGET): *.cpp
+	$(CC) $(CFLAGS) -o $(TARGET) *.cpp
 
 clean:
 	$(RM) $(TARGET)
-	$(RM) *.o

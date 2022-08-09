@@ -15,10 +15,12 @@ public:
     // Simply returns this->size
     size_t length() const;
 
-    void sorted_insert(const Node &);
-    void sorted_insert(Word * const &);
-    Node * find(const Node &) const;
+    void append(Node * const &);
+    void append(const Node &);
+    void sorted_insert(Node * const &);
+    void sorted_insert(const Word &);
     Node * find(const char *) const;
+    Node * find(const Node &) const;
 
 private:
 	Node * index;

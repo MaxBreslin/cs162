@@ -6,78 +6,63 @@ List::List() {
 }
 
 List::List(const List &obj) {
+    index = nullptr;
+    size = 0;
+
     if (obj.index) {
-        Node * curr = new Node;
-        index = curr;
         for (size_t i = 0; i < obj.length(); i ++) {
-            curr->data = new Word(*obj[i].data);
-            curr->next = new Node;
-            curr = curr->next;
+            append(obj[i]);
         }
         size = obj.size;
-    }
-    else {
-        index = nullptr;
-        size = 0;
     }
 }
 
 List::~List() {
-    Node * curr = index;
-    while (curr) {
-        curr = index->next;
+    Node * temp = index;
+    while (temp) {
+        temp = index->next;
         delete index->data;
         delete index;
-        index = curr;
+        index = temp;
     }
+
     index = nullptr;
     size = 0;
 }
 
 List & List::operator=(const List &obj) {
     if (this != &obj) {
-        Node * curr = index->next;
-        while (curr) {
+        Node * temp = index;
+        while (temp) {
+            temp = index->next;
+            delete index->data;
             delete index;
-            index = curr;
-            curr = index->next;
+            index = temp;
         }
+
+        index = nullptr;
+        size = 0;
+
         if (obj.index) {
-            curr = new Node;
-            index = curr;
             for (size_t i = 0; i < obj.length(); i ++) {
-                curr->data = new Word(*obj[i].data);
-                curr->next = new Node;
-                curr = curr->next;
+                append(obj[i]);
             }
             size = obj.size;
-        }
-        else {
-            index = nullptr;
-            size = 0;
         }
     }
     return *this;
 }
 
 Node & List::operator[](const size_t &index) {
-    if (index >= size) {
-        throw std::out_of_range("Index out of range");
-    }
     return *counted_traversal(index);
 }
 const Node & List::operator[](const size_t &index) const {
-    if (index >= size) {
-        throw std::out_of_range("Index out of range");
-    }
     return *counted_traversal(index);
 }
 
 std::ostream & operator<<(std::ostream &out, const List &obj) {
-    Node * curr = obj.index;
-    while (curr) {
-        out << *curr->data;
-        curr = curr->next;
+    for (size_t i = 0; i < obj.length(); i ++) {
+        out << *obj[i].data;
     }
     return out;
 }
@@ -86,109 +71,88 @@ Node * List::counted_traversal(const size_t &index) const {
     if (index >= size) {
         throw std::out_of_range("Index out of range");
     }
+
     Node * curr = this->index;
     size_t pos = 0;
+
     while(pos != index) {
         pos ++;
         curr = curr->next;
     }
+
     return curr;
+}
+
+void List::append(Node * const &node) {
+    if (index) {
+        counted_traversal(size - 1)->next = node;
+    }
+    else {
+        index = node;
+    }
+    size ++;
+}
+void List::append(const Node &node) {
+    Node * temp = new Node;
+    temp->data = node.data;
+    temp->next = node.next;
+    append(temp);
 }
 
 size_t List::length() const {
     return size;
 }
 
-void List::sorted_insert(const Node &node) {
+void List::sorted_insert(Node * const &node) {
     if (index) {
         Node * curr = index;
         Node * prev = nullptr;
         Node * temp = nullptr;
-        while (curr->next) {
-            if (*curr->data >= *node.data) {
+
+        while (curr) {
+            if (*curr >= *node) {
                 break;
             }
             prev = curr;
             curr = curr->next;
         }
-        if (!prev) {
-            temp = new Node;
-            temp->data = new Word(*node.data);
+
+        temp = node;
+        
+        if (prev) {
+            prev->next = temp;
+            temp->next = curr;
+        }
+        else {
             temp->next = index;
             index = temp;
-            size ++;
-            return;
         }
-        temp = new Node;
-        prev->next = temp;
-        temp->data = new Word(*node.data);
-        temp->next = curr;
-        size ++;
-        return;
     }
-    index = new Node;
-    index->data = new Word(*node.data);
-    index->next = nullptr;
+    else {
+        index = node;
+        index->next = nullptr;
+    }
     size ++;
 }
-void List::sorted_insert(Word * const &word) {
-    if (index) {
-        Node * curr = index;
-        Node * prev = nullptr;
-        Node * temp = nullptr;
-        while (curr) {
-            if (*curr->data >= *word) {
-                break;
-            }
-            prev = curr;
-            curr = curr->next;
-        }
-        if (!prev) {
-            temp = new Node;
-            temp->data = word;
-            temp->next = index;
-            index = temp;
-            size ++;
-            return;
-        }
-        if (!curr) {
-            temp = new Node;
-            prev->next = temp;
-            temp->data = word;
-            temp->next = nullptr;
-            size ++;
-            return;
-        }
-        temp = new Node;
-        prev->next = temp;
-        temp->data = word;
-        temp->next = curr;
-        size ++;
-        return;
-    }
-    index = new Node;
-    index->data = word;
-    index->next = nullptr;
-    size ++;
+void List::sorted_insert(const Word &word) {
+    Node * temp = new Node;
+    temp->data = new Word(word);
+    temp->next = nullptr;
+    sorted_insert(temp);
 }
 
-Node * List::find(const Node &node) const {
-    Node * curr = index;
-    while (curr) {
-        if (*curr->data == *node.data) {
-            break;
-        }
-        curr = curr->next;
-    }
-    return curr;
-}
 Node * List::find(const char *str) const {
-    Node * curr = index;
-    while (curr) {
-        if (*curr->data == str) {
-            break;
+    Node * temp = nullptr;
+    for (size_t i = 0; i < size; i ++) {
+        if (*(temp = counted_traversal(i)) == str) {
+            return temp;
         }
-        curr = curr->next;
     }
-    return curr;
+    return nullptr;
+}
+Node * List::find(const Node &node) const {
+    const char * temp = node.data->get_data();
+    Node * return_node = find(temp);
+    delete[] temp;
+    return return_node;
 }
