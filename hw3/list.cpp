@@ -30,7 +30,7 @@ List::~List() {
     size = 0;
 }
 
-List& List::operator=(const List &obj) {
+List & List::operator=(const List &obj) {
     if (this != &obj) {
         if (index) {
             for (int i = 0; i < size; i ++) {

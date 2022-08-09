@@ -12,6 +12,8 @@ public:
     ~Word();
     Word & operator=(const Word &);
 
+    friend std::ostream & operator<<(std::ostream &, const Word &);
+
     // Simply returns this->count
     int get_count() const;
     // Creates a new dynamic c-string with the
@@ -29,3 +31,9 @@ private:
     char * data;
     int count;
 };
+
+bool operator>(const Word &, const Word &);
+bool operator==(const Word &, const Word &);
+bool operator==(const Word &, const char * const &);
+bool operator==(const char * const &, const Word &);
+bool operator>=(const Word &, const Word &);

@@ -6,7 +6,7 @@ public:
     List();
     List(const List &);
     ~List();
-    List& operator=(const List &);
+    List & operator=(const List &);
 
     // Simply returns this->size
     int get_size() const;
