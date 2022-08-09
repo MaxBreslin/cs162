@@ -11,7 +11,7 @@ Enter input file name: input.txt
 "third" Count: 1
 "this" Count: 3
 "world" Count: 4
-]0;max.breslin@vmcslinuxprod01:~/cs162/hw4max.breslin@vmcslinuxprod01:~/cs162/hw4 $ valgridn[K[Knd-[K --leak-check=full ./main
+]0;max.breslin@vmcslinuxprod01:~/cs162/hw4max.breslin@vmcslinuxprod01:~/cs162/hw4 $ valgrind --leak-check=full ./main
 ==1845604== Memcheck, a memory error detector
 ==1845604== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
 ==1845604== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
