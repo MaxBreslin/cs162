@@ -1,0 +1,49 @@
+Script started on 2022-08-12 15:06:42-07:00
+]0;max.breslin@vmcslinuxprod01:~/cs162/practice3max.breslin@vmcslinuxprod01:~/cs162/practice3 $ ./main
+hello world
+world hello
+this is
+is this a test?
+yes this is
+
+List of Words:
+a
+is
+yes
+this
+hello
+test?
+world
+]0;max.breslin@vmcslinuxprod01:~/cs162/practice3max.breslin@vmcslinuxprod01:~/cs162/practice3 $ valgrind --leak-check=full ./main
+==2231826== Memcheck, a memory error detector
+==2231826== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==2231826== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==2231826== Command: ./main
+==2231826== 
+hello world
+world hello
+this is
+is this a test?
+yes this is
+
+List of Words:
+a
+is
+yes
+this
+hello
+test?
+world
+==2231826== 
+==2231826== HEAP SUMMARY:
+==2231826==     in use at exit: 0 bytes in 0 blocks
+==2231826==   total heap usage: 29 allocs, 29 frees, 75,376 bytes allocated
+==2231826== 
+==2231826== All heap blocks were freed -- no leaks are possible
+==2231826== 
+==2231826== For lists of detected and suppressed errors, rerun with: -s
+==2231826== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+]0;max.breslin@vmcslinuxprod01:~/cs162/practice3max.breslin@vmcslinuxprod01:~/cs162/practice3 $ exit
+exit
+
+Script done on 2022-08-12 15:07:20-07:00
