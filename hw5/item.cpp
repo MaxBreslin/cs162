@@ -64,6 +64,18 @@ void Item::print() const {
     std::cout << name << ": " << quantity << " @ $" << price << std::endl;
 }
 
+void Item::set_name(const char * const &name) {
+    if (this->name) {
+        delete[] this->name;
+        this->name = nullptr;
+    }
+    if (name) {
+        this->name = new char[strlen(name) + 1];
+        memset(this->name, 0, strlen(name) + 1);
+        strcpy(this->name, name);
+    }
+}
+
 char * Item::get_name() {
     if (!name) {
         return nullptr;
@@ -85,8 +97,16 @@ void Item::get_name(char * name) {
     memset(this->name, 0, strlen(name) + 1);
     strcpy(this->name, name);
 }
+
+void Item::set_quantity(const unsigned int &quantity) {
+    this->quantity = quantity;
+}
 unsigned int Item::get_quantity() {
     return quantity;
+}
+
+void Item::set_price(const float &price) {
+    this->price = price;
 }
 float Item::get_price() {
     return price;

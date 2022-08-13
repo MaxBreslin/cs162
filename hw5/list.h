@@ -21,6 +21,14 @@ public:
 
     void sorted_insert(Node * const &);
 
+    void remove(const char * const &);
+    void remove(const unsigned int &);
+    void remove(const float &);
+
+    void update(const char * const &, const char * const &);
+    void update(const unsigned int &, const unsigned int &);
+    void update(const float &, const float &);
+
 private:
 	Node * index;
     size_t size;
@@ -28,4 +36,5 @@ private:
     // Helper function for a basic counted traversal.
     Node * counted_traversal(const size_t &index) const;
     int compare(const Node &, const Node &) const;
+    int compare(const Node &, const char * const &) const;
 };
