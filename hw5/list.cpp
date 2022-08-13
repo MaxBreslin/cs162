@@ -102,7 +102,12 @@ Node & List::at(const size_t &index) const {
 }
 
 int List::compare(const Node &lhs, const Node &rhs) const {
-    return strcmp(lhs.data->get_name(), rhs.data->get_name());
+    char * lhs_name = lhs.data->get_name();
+    char * rhs_name = rhs.data->get_name();
+    int result = strcmp(lhs_name, rhs_name);
+    delete[] lhs_name;
+    delete[] rhs_name;
+    return result;
 }
 
 void List::sorted_insert(Node * const &node) {
@@ -134,20 +139,4 @@ void List::sorted_insert(Node * const &node) {
         index = node;
     }
     size ++;
-}
-
-Node * List::find(const char * const &str) const {
-    Node * temp = nullptr;
-    for (size_t i = 0; i < size; i ++) {
-        if (strcmp((temp = counted_traversal(i))->data->get_name(), str) == 0) {
-            return temp;
-        }
-    }
-    return nullptr;
-}
-Node * List::find(const Node &node) const {
-    const char * temp = node.data->get_name();
-    Node * return_node = find(temp);
-    delete[] temp;
-    return return_node;
 }

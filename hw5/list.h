@@ -20,14 +20,6 @@ public:
     void append(Node * const &);
 
     void sorted_insert(Node * const &);
-    
-    // Returns a pointer to the first node containing the
-    // passed string. If no node is found, returns nullptr.
-    Node * find(const char * const &) const;
-    // Returns a pointer to the first node containing the
-    // same data as the passed node. If no node is found, 
-    // returns nullptr.
-    Node * find(const Node &) const;
 
 private:
 	Node * index;
