@@ -2,18 +2,12 @@
 #include "item.h"
 
 struct Node {
-    Node() {
-        data = nullptr;
-        next = nullptr;
-    }
-    Node(const Item &obj) {
-        data = new Item(obj);
-        next = nullptr;
-    }
-    ~Node() {
-        delete data;
-        data = nullptr;
-    }
+    Node();
+    Node(const Item &);
+    Node(const char * const &);
+    ~Node();
+
+
     Item * data;
     Node * next;
 };

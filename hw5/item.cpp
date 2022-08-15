@@ -18,6 +18,13 @@ Item::Item(const Item &obj) {
     quantity = obj.quantity;
     price = obj.price;
 }
+Item::Item(const char * const &name) {
+    this->name = new char[strlen(name) + 1];
+    memset(this->name, 0, strlen(name) + 1);
+    strcpy(this->name, name);
+    quantity = 0;
+    price = 0.0F;
+}
 Item::Item(const char * const &name, const unsigned int &quantity, const float &price) {
     this->name = nullptr;
     this->quantity = 0;
@@ -60,8 +67,12 @@ Item & Item::operator=(const Item &obj) {
     return *this;
 }
 
-void Item::print() const {
-    std::cout << name << ": " << quantity << " @ $" << price << std::endl;
+void Item::print(std::ostream &out) const {
+    float total = quantity * price;
+    std::cout << GREEN;
+    out << "\"" << name << "\": "<< quantity << " at $" << price 
+              << " ($" << total << " total)" << std::endl;
+    std::cout << RESET;
 }
 
 void Item::set_name(const char * const &name) {

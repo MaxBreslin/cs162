@@ -4,7 +4,6 @@ List::List() {
     index = nullptr;
     size = 0;
 }
-
 List::List(const List &obj) {
     index = nullptr;
     size = 0;
@@ -16,10 +15,8 @@ List::List(const List &obj) {
             temp = new Node(*obj.at(i).data);
             append(temp);
         }
-        size = obj.size;
     }
 }
-
 List::~List() {
     Node * temp = index;
     while (temp) {
@@ -55,14 +52,16 @@ List & List::operator=(const List &obj) {
     return *this;
 }
 
-void List::print() const {
+void List::print(std::ostream &out) const {
     if (!index) {
-        std::cout << "List is empty." << std::endl;
+        std::cout << RED;
+        out << "List is empty" << std::endl;
+        std::cout << RESET;
         return;
     }
     Node * temp = index;
     while (temp) {
-        temp->data->print();
+        temp->data->print(out);
         temp = temp->next;
     }
 }
@@ -72,30 +71,33 @@ size_t List::length() const {
 }
 
 Node & List::at(const size_t &index) const {
-    return *counted_traversal(index);
+    if (!(index < size)) {
+        throw "Index out of bounds";
+    }
+
+    Node * curr = this->index;
+    size_t pos = 0;
+
+    while (pos < index) {
+        pos ++;
+        curr = curr->next;
+    }
+
+    return *curr;
 }
 
-void List::append(Node * const &node) {
-    if (index) {
-        counted_traversal(size - 1)->next = node;
-    }
-    else {
-        index = node;
-    }
-    size ++;
-}
-
-void List::sorted_insert(Node * const &node) {
+void List::sorted_unique_insert(Node * const &node) {
     if (!index) {
         append(node);
         return;
     }
+
     Node * curr = index;
     Node * prev = nullptr;
 
     while (curr) {
         if (compare(*curr, *node) == 0) {
-            throw std::runtime_error("\033[;31m?Duplicate item\033[0m");
+            throw "\033[;31mDuplicate item\033[0m";
             return;
         }
         if (compare(*curr, *node) > 0) {
@@ -118,7 +120,7 @@ void List::sorted_insert(Node * const &node) {
 
 void List::remove(const char * const &name) {
     if (!index) {
-        throw std::runtime_error("\033[;31m?List is empty\033[0m");
+        throw "\033[;31mList is empty\033[0m";
         return;
     }
     Node * curr = index;
@@ -138,12 +140,11 @@ void List::remove(const char * const &name) {
         prev = curr;
         curr = curr->next;
     }
-    throw std::runtime_error("\033[;31m?Item with name not found\033[0m");
+    throw "\033[;31mItem with name not found\033[0m";
 }
-
 void List::remove(const unsigned int &quantity) {
     if (!index) {
-        throw std::runtime_error("\033[;31m?List is empty\033[0m");
+        throw "\033[;31mList is empty\033[0m";
         return;
     }
     Node * curr = index;
@@ -170,13 +171,12 @@ void List::remove(const unsigned int &quantity) {
         }
     }
     if (!removed) {
-        throw std::runtime_error("\033[;31m?Item with quantity not found\033[0m");
+        throw "\033[;31mItem with quantity not found\033[0m";
     }
 }
-
 void List::remove(const float &price) {
     if (!index) {
-        throw std::runtime_error("\033[;31m?List is empty\033[0m");
+        throw "\033[;31mList is empty\033[0m";
         return;
     }
     Node * curr = index;
@@ -203,13 +203,13 @@ void List::remove(const float &price) {
         }
     }
     if (!removed) {
-        throw std::runtime_error("\033[;31m?Item with price not found\033[0m");
+        throw "\033[;31mItem with price not found\033[0m";
     }
 }
 
 void List::update(const char * const &name, const char * const &new_name) {
     if (!index) {
-        throw std::runtime_error("\033[;31m?List is empty\033[0m");
+        throw "\033[;31mList is empty\033[0m";
         return;
     }
     Node * curr = index;
@@ -220,11 +220,11 @@ void List::update(const char * const &name, const char * const &new_name) {
         }
         curr = curr->next;
     }
-    throw std::runtime_error("\033[;31m?Item with name not found\033[0m");
+    throw "\033[;31mItem with name not found\033[0m";
 }
 void List::update(const unsigned int &quantity, const unsigned int &new_quantity) {
     if (!index) {
-        throw std::runtime_error("\033[;31m?List is empty\033[0m");
+        throw "\033[;31mList is empty\033[0m";
         return;
     }
     Node * curr = index;
@@ -237,12 +237,12 @@ void List::update(const unsigned int &quantity, const unsigned int &new_quantity
         curr = curr->next;
     }
     if (!updated) {
-        throw std::runtime_error("\033[;31m?Item with quantity not found\033[0m");
+        throw "\033[;31mItem with quantity not found\033[0m";
     }
 }
 void List::update(const float &price, const float &new_price) {
     if (!index) {
-        throw std::runtime_error("\033[;31m?List is empty\033[0m");
+        throw "\033[;31mList is empty\033[0m";
         return;
     }
     Node * curr = index;
@@ -255,24 +255,18 @@ void List::update(const float &price, const float &new_price) {
         curr = curr->next;
     }
     if (!updated) {
-        throw std::runtime_error("\033[;31m?Item with price not found\033[0m");
+        throw "\033[;31mItem with price not found\033[0m";
     }
 }
 
-Node * List::counted_traversal(const size_t &index) const {
-    if (index >= size) {
-        throw std::out_of_range("\033[;31mIndex out of range\033[0m");
+void List::append(Node * const &node) {
+    if (index) {
+        at(size - 1).next = node;
     }
-
-    Node * curr = this->index;
-    size_t pos = 0;
-
-    while(pos != index) {
-        pos ++;
-        curr = curr->next;
+    else {
+        index = node;
     }
-
-    return curr;
+    size ++;
 }
 
 int List::compare(const Node &lhs, const Node &rhs) const {
@@ -281,12 +275,5 @@ int List::compare(const Node &lhs, const Node &rhs) const {
     int result = strcmp(lhs_name, rhs_name);
     delete[] lhs_name;
     delete[] rhs_name;
-    return result;
-}
-
-int List::compare(const Node &node, const char * const &str) const {
-    char * name = node.data->get_name();
-    int result = strcmp(name, str);
-    delete[] name;
     return result;
 }

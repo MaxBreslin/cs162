@@ -27,6 +27,7 @@ int main() {
     std::cout.setf(std::ios::fixed, std::ios::floatfield);
     std::cout.precision(2);
 
+
     welcome();
 
     while ((option = menu()) != 1) {
@@ -46,12 +47,15 @@ int main() {
             case 6:
                 print(list);
                 break;
-            default:
-                std::cout << "\033[;31m" << "?Invalid option." << "\033[0m" << std::endl;
+            case 7:
+                to_file(list);
                 break;
+            default:
+                std::cout << RED << "Invalid option" << RESET << std::endl;
+                return EXIT_FAILURE;
         }
      }
-     std::cout << "\033[;33m" << "[done]" << "\033[0m" << std::endl;
+     std::cout << YELLOW << "[done]" << RESET << std::endl;
      return EXIT_SUCCESS;
 }
 
@@ -70,9 +74,17 @@ char menu() {
               << "4 - Remove an item from the list" << std::endl
               << "5 - Update an item in the list" << std::endl
               << "6 - Display all items in the list" << std::endl
+              << "7 - Output the list to a file" << std::endl
               << "Enter option: ";
 
     std::cin >> option;
+    while (std::cin.fail() || option < 1 || option > 7) {
+        std::cin.clear();
+        std::cin.ignore(1024, '\n');
+        std::cout << RED << "Invalid option" << RESET << std::endl;
+        std::cout << "Enter option: ";
+        std::cin >> option;
+    }
     std::cin.ignore(2, '\n');
 
     std::cout << std::endl;
@@ -112,6 +124,7 @@ char * get_name() {
 
 void erase(List &list) {
     list.~List();
+    std::cout << GREEN << "List successfully erased" << RESET << std::endl;
 }
 
 void add(List &list) {
@@ -123,27 +136,42 @@ void add(List &list) {
 
     std::cout << "Enter the name of the item: ";
     name = get_name();
+    name[0] = toupper(name[0]);
 
     std::cout << "Enter the quantity of the item: ";
     std::cin >> quantity;
+    while (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(1024, '\n');
+        std::cout << RED << "Invalid option" << RESET << std::endl;
+        std::cout << "Enter the quantity of the item: ";
+        std::cin >> quantity;
+    }
 
     std::cout << "Enter the price of the item: ";
     std::cin >> price;
+    while (std::cin.fail() || price < 0.0F) {
+        std::cin.clear();
+        std::cin.ignore(1024, '\n');
+        std::cout << RED << "Invalid option" << RESET << std::endl;
+        std::cout << "Enter the price of the item: ";
+        std::cin >> price;
+    }
 
     item = Item(name, quantity, price);
     node = new Node(item);
     try {
-        list.sorted_insert(node);
+        list.sorted_unique_insert(node);
     }
-    catch (std::runtime_error &e) {
-        std::cout << std::endl << e.what() << std::endl;
+    catch (const char * &e) {
+        std::cout << std::endl << e << std::endl;
         delete[] name;
         delete node;
         return;
     }
     std::cout << std::endl
-              << "\033[;32m" << "Item \"" << name << "\" with quantity " << quantity
-              << " at $" << price << " added successfully." << "\033[0m" << std::endl;
+              << GREEN << "Item \"" << name << "\" with quantity " << quantity
+              << " at $" << price << " added successfully" << RESET << std::endl;
     delete[] name;
 }
 
@@ -153,7 +181,7 @@ void remove(List &list) {
     std::cin >> option;
 
     while (option < 1 || option > 3) {
-        std::cout << "\033[;31m" << "?Invalid option." << "\033[0m" << std::endl 
+        std::cout << RED << "Invalid option" << RESET << std::endl 
                   << "Enter match criterion (1 for name, 2 for quantity, 3 for price): ";
         std::cin >> option;
     }
@@ -170,7 +198,7 @@ void remove(List &list) {
             remove_price(list);
             break;
         default:
-            std::cout << "\033[;31m" << "?Invalid option." << "\033[0m" << std::endl;
+            std::cout << RED << "Invalid option" << RESET << std::endl;
             break;
     }
 }
@@ -180,17 +208,18 @@ void remove_name(List &list) {
 
     std::cout << "Enter the name of the item: ";
     name = get_name();
+    name[0] = toupper(name[0]);
     
     try {
         list.remove(name);
     }
-    catch (std::runtime_error &e) {
-        std::cout << std::endl << e.what() << std::endl;
+    catch (const char * &e) {
+        std::cout << std::endl << e << std::endl;
         delete[] name;
         return;
     }
     std::cout << std::endl
-              << "\033[;32m" << "Item \"" << name << "\" removed." << "\033[0m" << std::endl;
+              << GREEN << "Item \"" << name << "\" removed" << RESET << std::endl;
     delete[] name;
 }
 
@@ -203,12 +232,12 @@ void remove_quantity(List &list) {
     try {
         list.remove(quantity);
     }
-    catch (std::runtime_error &e) {
-        std::cout << std::endl << e.what() << std::endl;
+    catch (const char * &e) {
+        std::cout << std::endl << e << std::endl;
         return;
     }
     std::cout << std::endl
-              << "\033[;32m" << "All items with quantity " << quantity << " removed." << "\033[0m" << std::endl;
+              << GREEN << "All items with quantity " << quantity << " removed" << RESET << std::endl;
 }
 
 void remove_price(List &list) {
@@ -220,12 +249,12 @@ void remove_price(List &list) {
     try {
         list.remove(price);
     }
-    catch (std::runtime_error &e) {
-        std::cout << std::endl << e.what() << std::endl;
+    catch (const char * &e) {
+        std::cout << std::endl << e << std::endl;
         return;
     }
     std::cout << std::endl
-              << "\033[;32m" << "All items with price " << price << " removed." << "\033[0m" << std::endl;
+              << GREEN << "All items with price " << price << " removed" << RESET << std::endl;
 }
 
 void update(List &list) {
@@ -234,7 +263,7 @@ void update(List &list) {
     std::cin >> option;
 
     while (option < 1 || option > 3) {
-        std::cout << "\033[;31m" << "?Invalid option." << "\033[0m" << std::endl 
+        std::cout << RED << "Invalid option" << RESET << std::endl 
                   << "Enter match criterion (1 for name, 2 for quantity, 3 for price): ";
         std::cin >> option;
     }
@@ -251,7 +280,7 @@ void update(List &list) {
             update_price(list);
             break;
         default:
-            std::cout << "\033[;31m" << "?Invalid option." << "\033[0m" << std::endl;
+            std::cout << RED << "Invalid option" << RESET << std::endl;
             break;
     }
 }
@@ -261,20 +290,22 @@ void update_name(List &list) {
 
     std::cout << "Enter the name to update: ";
     name = get_name();
+    name[0] = toupper(name[0]);
     std::cout << "Enter the new name of the item: ";
     new_name = get_name();
+    new_name[0] = toupper(new_name[0]);
     
     try {
         list.update(name, new_name);
     }
-    catch (std::runtime_error &e) {
-        std::cout << std::endl << e.what() << std::endl;
+    catch (const char * &e) {
+        std::cout << std::endl << e << std::endl;
         delete[] name;
         delete[] new_name;
         return;
     }
     std::cout << std::endl
-              << "\033[;32m" << "Item \"" << name << "\" is now \"" << new_name << "\"." << "\033[0m" << std::endl;
+              << GREEN << "Item \"" << name << "\" is now \"" << new_name << "\"" << RESET << std::endl;
     delete[] name;
     delete[] new_name;
 }
@@ -290,12 +321,12 @@ void update_quantity(List &list) {
     try {
         list.update(quantity, new_quantity);
     }
-    catch (std::runtime_error &e) {
-        std::cout << std::endl << e.what() << std::endl;
+    catch (const char * &e) {
+        std::cout << std::endl << e << std::endl;
         return;
     }
     std::cout << std::endl
-              << "\033[;32m" << "All items with quantity " << quantity << " now have quantity " << new_quantity << "." << "\033[0m" << std::endl;
+              << GREEN << "All items with quantity " << quantity << " now have quantity " << new_quantity << "" << RESET << std::endl;
 }
 void update_price(List &list) {
     float price = 0.0F;
@@ -309,14 +340,37 @@ void update_price(List &list) {
     try {
         list.update(price, new_price);
     }
-    catch (std::runtime_error &e) {
-        std::cout << std::endl << e.what() << std::endl;
+    catch (const char * &e) {
+        std::cout << std::endl << e << std::endl;
         return;
     }
     std::cout << std::endl
-              << "\033[;32m" << "All items with price $" << price << " now have price $" << new_price << "." << "\033[0m" << std::endl;
+              << GREEN << "All items with price $" << price << " now have price $" << new_price << "" << RESET << std::endl;
 }
 
 void print(const List &list) {
-    list.print();
+    list.print(std::cout);
+}
+
+void to_file(const List &list) {
+    std::ofstream file;
+    char * filename = nullptr;
+
+    file.setf(std::ios::fixed, std::ios::floatfield);
+    file.precision(2);
+
+    std::cout << "Enter filename (all contents will be overwritten): ";
+    filename = get_name();
+    file.open(filename);
+    if (!file.is_open()) {
+        std::cout << RED << "Error opening file" << RESET << std::endl;
+        delete[] filename;
+        return;
+    }
+    list.print(file);
+    std::cout << std::endl
+              << GREEN << "List written to \"" 
+              << filename << "\"" << RESET << std::endl;
+    delete[] filename;
+    file.close();
 }
