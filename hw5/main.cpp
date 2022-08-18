@@ -2,19 +2,15 @@
 // Author: Max Breslin
 // Assignment: Homework 5
 // Date: 8/12/2022
-// Description: This program will prompt the user to input a filename. It will
-//              then read the contents of the file and append every character
-//              to a single dynamic c-string. This string will be tokenized and
-//              each individual word will be inserted alphabetically to a dynamic 
-//              singly linked list of words. Duplicates are not appended and
-//              the word object holding the pointer to the duplicate word is
-//              updated accordingly (the count member variable is incremented).
-//              After every token has been read, the final list will be printed.
-//              
+// Description: This program will open an interactive menu, allowing a user to 
+//              add to, remove from, update, and print a list of items. This 
+//              list will be sorted alphabetically and unique. It will be a
+//              linked list of node structs, each containing a pointer to an
+//              item object.
 //
-// Input: The filename as a string and a file containing space-separated 
-//        and newline-separated words
-// Output: A complete list of distinct words and their frequencies in the file
+//              
+// Input: Menu options, file names, and item information
+// Output: List information to either std::cout or a specified file
 // Sources: None
 //******************************************************************************
 
@@ -63,7 +59,7 @@ void welcome() {
     std::cout << "Welcome to shopping list maintenance!" << std::endl;
 }
 
-char menu() {
+int menu() {
     int option = 0;
 
     std::cout << std::endl
