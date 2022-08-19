@@ -76,7 +76,35 @@ int main()
 //***         Print the list in REVERSE ORDER.
 //***         DO NOT USE ANY RECURSION ***
 node * print(node * head) {
-     //*** WRITE YOUR CODE HERE ***
+     int size = 0;
+     node * curr = head;
+     node * * seen = nullptr;
+     node * * temp = nullptr;
+
+     while (curr) {
+          if (seen) {
+               temp = new node * [size + 1];
+               for (int i = 0; i < size; i ++) {
+                    temp[i] = seen[i];
+               }
+               delete[] seen;
+               seen = temp;
+               seen[size ++] = curr;
+          } 
+          else {
+               seen = new node * [size + 1];
+               seen[0] = curr;
+               size = 1;
+          }
+          curr = curr->next;
+     }
+
+     for (int i = size - 1; i >= 0; i --) {
+          cout << *seen[i]->data << " (" << seen[i]->data->length() << ")" << endl;
+     }
+
+     delete[] seen;
+     return head;
 }
 
 //*** TASK 2: IMPLEMENT THE remove FUNCTION
@@ -84,7 +112,26 @@ node * print(node * head) {
 //***         is of the specified length
 //***         DO NOT USE ANY RECURSION ***
 node * remove(node * head, size_t length) {
-     //*** WRITE YOUR CODE HERE
+     node * curr = head;
+     node * prev = nullptr;
+     node * next = nullptr;
+     while (curr) {
+          next = curr->next;
+          if (curr->data->length() == length) {
+               if (prev) {
+                    prev->next = next;
+               }
+               else {
+                    head = next;
+               }
+               delete curr;
+          }
+          else {
+               prev = curr;
+          }
+          curr = next;
+     }
+     return head;
 }
 
 //*** DO NOT CHANGE CODE BELOW THIS LINE ***

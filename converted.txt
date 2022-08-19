@@ -1,0 +1,342 @@
+CALL //******************************************************************************
+CALL // Author: Max Breslin
+CALL // Assignment: Homework 5
+CALL // Date: 8/12/2022
+CALL // Description: This program will open an interactive menu, allowing a user to
+CALL //              add to, remove from, update, and print a list of items. This
+CALL //              list will be sorted alphabetically and unique. It will be a
+CALL //              linked list of node structs, each containing a pointer to an
+CALL //              item object.
+CALL //
+CALL //
+CALL // Input: Menu options, file names, and item information
+CALL // Output: List information to either std::cout or a specified file
+CALL // Sources: None
+CALL //******************************************************************************
+CALL #include "main.h"
+
+FUNCTION int main() 
+    DECLARE List list
+    DECLARE int option = 0
+    DISPLAY .setf(std::ios::fixed, std::ios::floatfield);
+    DISPLAY .precision(2);
+    CALL welcome();
+    WHILE  ((option = menu()) != 1) {
+        SWITCH (option) {
+            CASE  2:
+                CALL erase(list);
+                BREAK ;
+            CASE  3:
+                CALL add(list);
+                BREAK ;
+            CASE  4:
+                CALL remove(list);
+                BREAK ;
+            CASE  5:
+                CALL update(list);
+                BREAK ;
+            CASE  6:
+                CALL print(list);
+                BREAK ;
+            CASE  7:
+                CALL to_file(list);
+                BREAK ;
+            DEFAULT :
+                DISPLAY  << RED << "Invalid option" << RESET << std::endl;
+                RETURN  EXIT_FAILURE;
+        }
+     }
+     DISPLAY  << YELLOW << "[done]" << RESET << std::endl;
+     RETURN  EXIT_SUCCESS;
+}
+
+FUNCTION void welcome() 
+    DISPLAY  << "Welcome to shopping list maintenance!" << std::endl;
+}
+
+FUNCTION int menu() 
+    DECLARE int option = 0
+    DISPLAY  << std::endl
+              CALL << "Please enter one of the following options:" << std::endl
+              CALL << "1 - Quit the program" << std::endl
+              CALL << "2 - Erase all items from the list (resulting in an empty list)" << std::endl
+              CALL << "3 - Add an item to the list" << std::endl
+              CALL << "4 - Remove an item from the list" << std::endl
+              CALL << "5 - Update an item in the list" << std::endl
+              CALL << "6 - Display all items in the list" << std::endl
+              CALL << "7 - Output the list to a file" << std::endl
+              CALL << "Enter option: ";
+    CALL std::cin >> option;
+    WHILE  (std::cin.fail() || option < 1 || option > 7) {
+        CALL std::cin.clear();
+        CALL std::cin.ignore(1024, '\n');
+        DISPLAY  << RED << "Invalid option" << RESET << std::endl;
+        DISPLAY  << "Enter option: ";
+        CALL std::cin >> option;
+    }
+    CALL std::cin.ignore(2, '\n');
+    DISPLAY  << std::endl;
+    RETURN  option;
+}
+
+FUNCTION char * get_name() 
+    DECLARE char * name = nullptr
+    DECLARE char * temp = nullptr
+    DECLARE int size = 0
+    DECLARE char byte = 0
+    WHILE  (std::cin.good() && std::cin.peek() != '\n') {
+        CALL byte = std::cin.get();
+        IF  (name) {
+            CALL temp = new char[size + 2];
+            CALL memset(temp, 0, size + 2);
+            CALL strcpy(temp, name);
+            CALL memset(name, 0, size + 1);
+            CALL delete[] name;
+            CALL name = temp;
+            CALL name[size ++] = byte;
+        }
+        ELSE  {
+            CALL name = new char[size + 2];
+            CALL memset(name, 0, size + 2);
+            CALL name[0] = byte;
+            CALL size = 1;
+        }
+    }
+    CALL std::cin.ignore(2, '\n');
+    CALL std::cin.clear();
+    RETURN  name;
+}
+
+FUNCTION void erase(List &list) 
+    CALL list.~List();
+    DISPLAY  << GREEN << "List successfully erased" << RESET << std::endl;
+}
+
+FUNCTION void add(List &list) 
+    DECLARE char * name = nullptr
+    DECLARE unsigned int quantity = 0
+    CALL float price = 0.0F;
+    DECLARE Item item
+    DECLARE Node * node = nullptr
+    DISPLAY  << "Enter the name of the item: ";
+    CALL name = get_name();
+    CALL name[0] = toupper(name[0]);
+    DISPLAY  << "Enter the quantity of the item: ";
+    CALL std::cin >> quantity;
+    WHILE  (std::cin.fail()) {
+        CALL std::cin.clear();
+        CALL std::cin.ignore(1024, '\n');
+        DISPLAY  << RED << "Invalid option" << RESET << std::endl;
+        DISPLAY  << "Enter the quantity of the item: ";
+        CALL std::cin >> quantity;
+    }
+    DISPLAY  << "Enter the price of the item: ";
+    CALL std::cin >> price;
+    WHILE  (std::cin.fail() || price < 0.0F) {
+        CALL std::cin.clear();
+        CALL std::cin.ignore(1024, '\n');
+        DISPLAY  << RED << "Invalid option" << RESET << std::endl;
+        DISPLAY  << "Enter the price of the item: ";
+        CALL std::cin >> price;
+    }
+    CALL item = Item(name, quantity, price);
+    CALL node = new Node(item);
+    TRY  {
+        CALL list.sorted_unique_insert(node);
+    }
+    CATCH  (const char * &e) {
+        DISPLAY  << std::endl << e << std::endl;
+        CALL delete[] name;
+        CALL delete node;
+        RETURN ;
+    }
+    DISPLAY  << std::endl
+              CALL << GREEN << "Item \"" << name << "\" with quantity " << quantity
+              CALL << " at $" << price << " added successfully" << RESET << std::endl;
+    CALL delete[] name;
+}
+
+FUNCTION void remove(List &list) 
+    DECLARE int option = 0
+    DISPLAY  << "Enter match criterion (1 for name, 2 for quantity, 3 for price): ";
+    CALL std::cin >> option;
+    WHILE  (option < 1 || option > 3) {
+        DISPLAY  << RED << "Invalid option" << RESET << std::endl
+                  CALL << "Enter match criterion (1 for name, 2 for quantity, 3 for price): ";
+        CALL std::cin >> option;
+    }
+    CALL std::cin.ignore(2, '\n');
+    SWITCH  (option) {
+        CASE  1:
+            CALL remove_name(list);
+            BREAK ;
+        CASE  2:
+            CALL remove_quantity(list);
+            BREAK ;
+        CASE  3:
+            CALL remove_price(list);
+            BREAK ;
+        DEFAULT :
+            DISPLAY  << RED << "Invalid option" << RESET << std::endl;
+            BREAK ;
+    }
+}
+
+FUNCTION void remove_name(List &list) 
+    DECLARE char * name = nullptr
+    DISPLAY  << "Enter the name of the item: ";
+    CALL name = get_name();
+    CALL name[0] = toupper(name[0]);
+    TRY  {
+        CALL list.remove(name);
+    }
+    CATCH  (const char * &e) {
+        DISPLAY  << std::endl << e << std::endl;
+        CALL delete[] name;
+        RETURN ;
+    }
+    DISPLAY  << std::endl
+              CALL << GREEN << "Item \"" << name << "\" removed" << RESET << std::endl;
+    CALL delete[] name;
+}
+
+FUNCTION void remove_quantity(List &list) 
+    DECLARE unsigned int quantity = 0
+    DISPLAY  << "Enter the quantity of the item: ";
+    CALL std::cin >> quantity;
+    TRY  {
+        CALL list.remove(quantity);
+    }
+    CATCH  (const char * &e) {
+        DISPLAY  << std::endl << e << std::endl;
+        RETURN ;
+    }
+    DISPLAY  << std::endl
+              CALL << GREEN << "All items with quantity " << quantity << " removed" << RESET << std::endl;
+}
+
+FUNCTION void remove_price(List &list) 
+    CALL float price = 0.0F;
+    DISPLAY  << "Enter the price of the item: ";
+    CALL std::cin >> price;
+    TRY  {
+        CALL list.remove(price);
+    }
+    CATCH  (const char * &e) {
+        DISPLAY  << std::endl << e << std::endl;
+        RETURN ;
+    }
+    DISPLAY  << std::endl
+              CALL << GREEN << "All items with price " << price << " removed" << RESET << std::endl;
+}
+
+FUNCTION void update(List &list) 
+    DECLARE int option = 0
+    DISPLAY  << "Enter match criterion (1 for name, 2 for quantity, 3 for price): ";
+    CALL std::cin >> option;
+    WHILE  (option < 1 || option > 3) {
+        DISPLAY  << RED << "Invalid option" << RESET << std::endl
+                  CALL << "Enter match criterion (1 for name, 2 for quantity, 3 for price): ";
+        CALL std::cin >> option;
+    }
+    CALL std::cin.ignore(2, '\n');
+    SWITCH  (option) {
+        CASE  1:
+            CALL update_name(list);
+            BREAK ;
+        CASE  2:
+            CALL update_quantity(list);
+            BREAK ;
+        CASE  3:
+            CALL update_price(list);
+            BREAK ;
+        DEFAULT :
+            DISPLAY  << RED << "Invalid option" << RESET << std::endl;
+            BREAK ;
+    }
+}
+
+FUNCTION void update_name(List &list) 
+    DECLARE char * name = nullptr
+    DECLARE char * new_name = nullptr
+    DISPLAY  << "Enter the name to update: ";
+    CALL name = get_name();
+    CALL name[0] = toupper(name[0]);
+    DISPLAY  << "Enter the new name of the item: ";
+    CALL new_name = get_name();
+    CALL new_name[0] = toupper(new_name[0]);
+    TRY  {
+        CALL list.update(name, new_name);
+    }
+    CATCH  (const char * &e) {
+        DISPLAY  << std::endl << e << std::endl;
+        CALL delete[] name;
+        CALL delete[] new_name;
+        RETURN ;
+    }
+    DISPLAY  << std::endl
+              CALL << GREEN << "Item \"" << name << "\" is now \"" << new_name << "\"" << RESET << std::endl;
+    CALL delete[] name;
+    CALL delete[] new_name;
+}
+
+FUNCTION void update_quantity(List &list) 
+    DECLARE unsigned int quantity = 0
+    DECLARE unsigned int new_quantity = 0
+    DISPLAY  << "Enter the quantity to update: ";
+    CALL std::cin >> quantity;
+    DISPLAY  << "Enter the new quantity: ";
+    CALL std::cin >> new_quantity;
+    TRY  {
+        CALL list.update(quantity, new_quantity);
+    }
+    CATCH  (const char * &e) {
+        DISPLAY  << std::endl << e << std::endl;
+        RETURN ;
+    }
+    DISPLAY  << std::endl
+              CALL << GREEN << "All items with quantity " << quantity << " now have quantity " << new_quantity << "" << RESET << std::endl;
+}
+
+FUNCTION void update_price(List &list) 
+    CALL float price = 0.0F;
+    CALL float new_price = 0.0F;
+    DISPLAY  << "Enter the price to update: ";
+    CALL std::cin >> price;
+    DISPLAY  << "Enter the new price: ";
+    CALL std::cin >> new_price;
+    TRY  {
+        CALL list.update(price, new_price);
+    }
+    CATCH  (const char * &e) {
+        DISPLAY  << std::endl << e << std::endl;
+        RETURN ;
+    }
+    DISPLAY  << std::endl
+              CALL << GREEN << "All items with price $" << price << " now have price $" << new_price << "" << RESET << std::endl;
+}
+
+FUNCTION void print(const List &list) 
+    CALL list.print(std::cout);
+}
+
+FUNCTION void to_file(const List &list) 
+    CALL std::ofstream file;
+    DECLARE char * filename = nullptr
+    CALL file.setf(std::ios::fixed, std::ios::floatfield);
+    CALL file.precision(2);
+    DISPLAY  << "Enter filename (all contents will be overwritten): ";
+    CALL filename = get_name();
+    CALL file.open(filename);
+    IF  (!file.is_open()) {
+        DISPLAY  << RED << "Error opening file" << RESET << std::endl;
+        CALL delete[] filename;
+        RETURN ;
+    }
+    CALL list.print(file);
+    DISPLAY  << std::endl
+              CALL << GREEN << "List written to \""
+              CALL << filename << "\"" << RESET << std::endl;
+    CALL delete[] filename;
+    CALL file.close();
+}
