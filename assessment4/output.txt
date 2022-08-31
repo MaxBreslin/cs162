@@ -1,0 +1,55 @@
+Script started on 2022-08-31 10:48:06-07:00
+]0;max.breslin@vmcslinuxprod01:~/cs162/assessment4max.breslin@vmcslinuxprod01:~/cs162/assessment4 $ valgrind --leak-check=full ./main
+==450251== Memcheck, a memory error detector
+==450251== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==450251== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==450251== Command: ./main
+==450251== 
+Enter input text (BLANK LINE to end):
+hello yellow melloming this is a test
+of stuff for the assessment
+
+
+List of Words:
+a (1)
+is (2)
+of (2)
+for (3)
+the (3)
+test (4)
+this (4)
+hello (5)
+stuff (5)
+yellow (6)
+melloming (9)
+assessment (10)
+
+Enter search string: l
+Enter replacement string: xx
+Replacing "l" with "xx" in all list entries.
+Updated List:
+a (1)
+is (2)
+of (2)
+for (3)
+the (3)
+test (4)
+this (4)
+stuff (5)
+hexxxxo (7)
+yexxxxow (8)
+assessment (10)
+mexxxxoming (11)
+==450251== 
+==450251== HEAP SUMMARY:
+==450251==     in use at exit: 0 bytes in 0 blocks
+==450251==   total heap usage: 45 allocs, 45 frees, 75,843 bytes allocated
+==450251== 
+==450251== All heap blocks were freed -- no leaks are possible
+==450251== 
+==450251== For lists of detected and suppressed errors, rerun with: -s
+==450251== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+]0;max.breslin@vmcslinuxprod01:~/cs162/assessment4max.breslin@vmcslinuxprod01:~/cs162/assessment4 $ exit
+exit
+
+Script done on 2022-08-31 10:48:31-07:00
