@@ -54,10 +54,34 @@ int main() {
 }
 //****** DO NOT CHANGE ANY CODE ABOVE THIS LINE *****
 
-node *update(node *head, string match, string value) {
+node * update(node * head, string match, string value) {
+     node * curr = head;
+     node * prev = nullptr;
+     size_t pos = 0;
 
-// **** TASK 1: IMPLEMENT UPDATE FUNCTION HERE
+     while (curr) {
+          if (curr->data->find(match) == string::npos) {
+               prev = curr;
+               curr = curr->next;
+               continue;
+          }
+          while ((pos = curr->data->find(match)) != string::npos) {
+               curr->data->replace(pos, match.length(), value);
+               if (!prev) {
+                    head = curr->next;
+                    insert(head, *curr->data);
+                    delete curr;
+                    curr = head;
+                    continue;
+               }
+               prev->next = curr->next;
+               insert(head, *curr->data);
+               delete curr;
+               curr = prev->next;
+          }
+     }
 
+     return head;
 }
 
 // ***** DO NOT CHANGE ANY CODE AFTER THIS LINE
